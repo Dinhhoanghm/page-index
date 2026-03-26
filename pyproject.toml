@@ -1,0 +1,15 @@
+[project]
+name = "pageindex"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pageindex",        # PageIndex cloud SDK
+    "anthropic>=0.40",  # for manual mode (Claude)
+    "openai>=1.0",      # for manual mode (OpenAI fallback)
+    "python-dotenv>=1.0",
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.29",
+    "python-multipart>=0.0.9",
+]
