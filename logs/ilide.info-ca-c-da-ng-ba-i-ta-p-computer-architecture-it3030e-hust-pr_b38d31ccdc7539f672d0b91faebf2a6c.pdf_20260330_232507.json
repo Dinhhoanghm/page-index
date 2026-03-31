@@ -1,0 +1,348 @@
+[
+  {
+    "total_page_number": 43
+  },
+  {
+    "total_token": 26614
+  },
+  {
+    "toc_content": "\u25cf\nlw\nx6,\n32(x0)\n:\n\u25cb\nLo\u1ea1i\nl\u1ec7nh:\nI-type\n\u25cb\nopcode:\n0000011\n\u25cb\nrd:\nx6\n=\n00110\n\u25cb\nfunct3:\n010\n\u25cb\nrs1:\nx0\n=\n00000\n\u25cb\nimm:\n32\n=\n0000000000100000\n\u25cb\nM\u00e3\nm\u00e1y:\n00000000001000000000001 10010\n\u25cf\nadd\nx5,\nx29,\nx30\n:\n\u25cb\nLo\u1ea1i\nl\u1ec7nh:\nR-type\n\u25cb\nopcode:\n0110011\n\u25cb\nrd:\nx5\n=\n00101\n\u25cb\nfunct3:\n000\n\u25cb\nrs1:\nx29\n=\n11101\n\u25cb\nrs2:\nx30\n=\n11110\n\u25cb\nfunct7:\n0000000\n\u25cb\nM\u00e3\nm\u00e1y:\n000000011110111010000010101 10011\n\u25cf\naddi\nx5,\nx28,\n-12\n:\n\u25cb\nLo\u1ea1i\nl\u1ec7nh:\nI-type\n\u25cb\nopcode:\n0010011\n\u25cb\nrd:\nx5\n=\n00101\n\u25cb\nfunct3:\n000\n\u25cb\nrs1:\nx28\n=\n11100\n\u25cb\nimm:\n-12\n=\n1111111111110100\n\u25cb\nM\u00e3\nm\u00e1y:\n11111111111101001110000101001001 1",
+    "toc_page_list": [
+      10
+    ],
+    "page_index_given_in_toc": "no"
+  },
+  {
+    "message": "len(group_texts): 2"
+  },
+  {
+    "message": "generate_toc: [{'structure': '1', 'title': 'B\u00e0i t\u1eadp Ex2, Mid-term-2023-1-ans.pdf', 'physical_index': '<physical_index_1>'}, {'structure': '1.1', 'title': '\u0110\u1ec1 b\u00e0i: Cho b\u1ed9 x\u1eed l\u00fd 2 GHz th\u1ef1c hi\u1ec7n t\u1eadp l\u1ec7nh g\u1ed3m 5 l\u1edbp l\u1ec7nh A, B, C, D, E v\u1edbi CPI l\u1ea7n l\u01b0\u1ee3t l\u00e0 2, 3, 4, 6 v\u00e0 10.', 'physical_index': '<physical_index_1>'}, {'structure': '1.2', 'title': 'L\u1eddi gi\u1ea3i: CPI trung b\u00ecnh c\u1ee7a CPU \u0111\u01b0\u1ee3c t\u00ednh nh\u01b0 sau:', 'physical_index': '<physical_index_2>'}, {'structure': '1.2.1', 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P1:', 'physical_index': '<physical_index_2>'}, {'structure': '1.2.2', 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P2:', 'physical_index': '<physical_index_2>'}, {'structure': '1.2.3', 'title': 'T\u1ef7 l\u1ec7 gi\u1eefa th\u1eddi gian th\u1ef1c hi\u1ec7n c\u1ee7a P1 v\u00e0 P2:', 'physical_index': '<physical_index_2>'}, {'structure': '1.3', 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_2>'}, {'structure': '1.4', 'title': '\u0110\u1ec1 b\u00e0i: M\u1ed9t b\u1ed9 x\u1eed l\u00fd ch\u1ea1y ch\u01b0\u01a1ng tr\u00ecnh v\u1edbi t\u1ed1c \u0111\u1ed9 xung nh\u1ecbp l\u00e0 4 GHz.', 'physical_index': '<physical_index_2>'}, {'structure': '1.4.1', 'title': 'L\u1eddi gi\u1ea3i: CPI trung b\u00ecnh c\u1ee7a CPU:', 'physical_index': '<physical_index_2>'}, {'structure': '1.4.2', 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n ch\u01b0\u01a1ng tr\u00ecnh:', 'physical_index': '<physical_index_3>'}, {'structure': '1.5', 'title': 'B\u00e0i t\u1eadp 1.1, Baitap.pdf', 'physical_index': '<physical_index_3>'}, {'structure': '1.5.1', 'title': '\u0110\u1ec1 b\u00e0i: C\u00f3 3 b\u1ed9 x\u1eed l\u00fd P1, P2 v\u00e0 P3 c\u00f3 c\u00f9ng m\u1ed9t t\u1eadp l\u1ec7nh.', 'physical_index': '<physical_index_3>'}, {'structure': '1.5.2', 'title': 'L\u1eddi gi\u1ea3i: S\u1ed1 tri\u1ec7u l\u1ec7nh th\u1ef1c hi\u1ec7n tr\u00ean 1 gi\u00e2y (MIPS) c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh nh\u01b0 sau:', 'physical_index': '<physical_index_3>'}, {'structure': '1.5.3', 'title': 'C\u00e2u b: S\u1ed1 chu k\u1ef3 c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh b\u1eb1ng:', 'physical_index': '<physical_index_4>'}, {'structure': '1.5.4', 'title': 'C\u00e2u c: Th\u1eddi gian th\u1ef1c hi\u1ec7n m\u1edbi sau khi gi\u1ea3m 30% l\u00e0:', 'physical_index': '<physical_index_4>'}, {'structure': '1.6', 'title': 'B\u00e0i t\u1eadp 1.2, Baitap.pdf', 'physical_index': '<physical_index_4>'}, {'structure': '1.6.1', 'title': '\u0110\u1ec1 b\u00e0i: C\u00f3 hai b\u1ed9 x\u1eed l\u00fd c\u00f3 c\u00f9ng t\u1eadp l\u1ec7nh.', 'physical_index': '<physical_index_4>'}, {'structure': '1.6.2', 'title': 'L\u1eddi gi\u1ea3i: C\u00e2u a: B\u1ed9 x\u1eed l\u00fd n\u00e0o th\u1ef1c hi\u1ec7n nhanh h\u01a1n?', 'physical_index': '<physical_index_5>'}, {'structure': '1.6.3', 'title': 'C\u00e2u b: CPI trung b\u00ecnh cho m\u1ed7i b\u1ed9 x\u1eed l\u00fd?', 'physical_index': '<physical_index_5>'}, {'structure': '1.6.4', 'title': 'C\u00e2u c: T\u00ecm s\u1ed1 chu k\u1ef3 c\u1ea7n thi\u1ebft cho m\u1ed7i b\u1ed9 x\u1eed l\u00fd?', 'physical_index': '<physical_index_5>'}, {'structure': '2', 'title': 'Chapter 3', 'physical_index': '<physical_index_6>'}, {'structure': '2.1', 'title': 'C\u00e2u h\u1ecfi #f96f43, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_6>'}, {'structure': '2.1.1', 'title': '\u0110\u1ec1 b\u00e0i: Ch\u1ecdn c\u00e2u tr\u1ea3 l\u1eddi \u0111\u1ec3 th\u1ef1c hi\u1ec7n c\u00e2u l\u1ec7nh C sau trong RISC-V:', 'physical_index': '<physical_index_6>'}, {'structure': '2.1.2', 'title': 'L\u1eddi gi\u1ea3i: \u0110\u1ec3 th\u1ef1c hi\u1ec7n c\u00e2u l\u1ec7nh C *a = b + c; trong h\u1ee3p ng\u1eef RISC-V, ta c\u1ea7n th\u1ef1c hi\u1ec7n c\u00e1c b\u01b0\u1edbc sau:', 'physical_index': '<physical_index_6>'}, {'structure': '2.2', 'title': 'C\u00e2u h\u1ecfi #5e7591, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_7>'}, {'structure': '2.2.1', 'title': '\u0110\u1ec1 b\u00e0i: Gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a thanh ghi s4 sau khi th\u1ef1c hi\u1ec7n c\u00e1c l\u1ec7nh d\u01b0\u1edbi \u0111\u00e2y l\u00e0 bao nhi\u00eau?', 'physical_index': '<physical_index_7>'}, {'structure': '2.2.2', 'title': 'L\u1eddi gi\u1ea3i: Ph\u00e2n t\u00edch t\u1eebng l\u1ec7nh:', 'physical_index': '<physical_index_7>'}, {'structure': '2.3', 'title': 'B\u00e0i t\u1eadp Ex3, IT3030E-CA-Chap3-ISA-Exercises.pdf', 'physical_index': '<physical_index_8>'}, {'structure': '2.3.1', 'title': '\u0110\u1ec1 b\u00e0i: Bi\u00ean d\u1ecbch ng\u01b0\u1ee3c m\u00e3 h\u1ee3p ng\u1eef RISC-V sau \u0111\u00e2y sang m\u00e3 C t\u01b0\u01a1ng \u0111\u01b0\u01a1ng.', 'physical_index': '<physical_index_8>'}, {'structure': '2.4', 'title': 'B\u00e0i t\u1eadp Ex4, IT3030E-CA-Chap3-ISA-Exercises.pdf', 'physical_index': '<physical_index_10>'}, {'structure': '2.4.1', 'title': '\u0110\u1ec1 b\u00e0i: T\u00ecm \u0111\u1ecbnh d\u1ea1ng v\u00e0 m\u00e3 m\u00e1y c\u1ee7a l\u1ec7nh sau: sw x5, 32(x30)', 'physical_index': '<physical_index_10>'}, {'structure': '2.5', 'title': 'B\u00e0i t\u1eadp 3.5: \u0110\u1ec1 b\u00e0i: Chuy\u1ec3n \u0111\u1ed5i c\u00e1c l\u1ec7nh m\u00e3 m\u00e1y RISC-V sau \u0111\u00e2y sang d\u1ea1ng l\u1ec7nh h\u1ee3p ng\u1eef:', 'physical_index': '<physical_index_12>'}, {'structure': '2.5.1', 'title': '0x2237FFF1:', 'physical_index': '<physical_index_12>'}, {'structure': '2.5.2', 'title': '0x02F34022:', 'physical_index': '<physical_index_12>'}, {'structure': '2.5.3', 'title': '0x8E93FFE8:', 'physical_index': '<physical_index_12>'}, {'structure': '3', 'title': 'Chapter 4', 'physical_index': '<physical_index_20>'}, {'structure': '3.1', 'title': 'C\u00e2u h\u1ecfi #94ec4c, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_20>'}, {'structure': '3.1.1', 'title': '\u0110\u1ec1 b\u00e0i: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1eadp ph\u00e2n -31.75 d\u01b0\u1edbi d\u1ea1ng s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754 \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c.', 'physical_index': '<physical_index_20>'}, {'structure': '3.2', 'title': 'C\u00e2u h\u1ecfi #386374, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_21>'}, {'structure': '3.2.1', 'title': '\u0110\u1ec1 b\u00e0i: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1eadp ph\u00e2n 12.25 d\u01b0\u1edbi d\u1ea1ng s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754 \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c.', 'physical_index': '<physical_index_21>'}, {'structure': '3.3', 'title': 'C\u00e2u h\u1ecfi #bd4c95, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_22>'}, {'structure': '3.3.1', 'title': '\u0110\u1ec1 b\u00e0i: Cho s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c 01000001010100000000000000000000. X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 n\u00e0y.', 'physical_index': '<physical_index_22>'}, {'structure': '3.4', 'title': 'C\u00e2u h\u1ecfi #f2d536, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_23>'}, {'structure': '3.4.1', 'title': '\u0110\u1ec1 b\u00e0i: T\u00ecm k\u1ebft qu\u1ea3 c\u1ee7a ph\u00e9p to\u00e1n 10110110 + 01101101 v\u1edbi hai to\u00e1n h\u1ea1ng l\u00e0 c\u00e1c s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit.', 'physical_index': '<physical_index_23>'}, {'structure': '3.5', 'title': 'C\u00e2u h\u1ecfi #e83dac, IT3030---Midterm_with answers.pdf', 'physical_index': '<physical_index_24>'}, {'structure': '3.5.1', 'title': '\u0110\u1ec1 b\u00e0i: X\u00e1c \u0111\u1ecbnh tr\u01b0\u1eddng h\u1ee3p tr\u00e0n s\u1ed1 trong ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 32 bit.', 'physical_index': '<physical_index_24>'}, {'structure': '3.6', 'title': 'B\u00e0i t\u1eadp 1: Bi\u1ec3u di\u1ec5n s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u v\u00e0 chuy\u1ec3n \u0111\u1ed5i sang h\u1ec7 hexa', 'physical_index': '<physical_index_25>'}, {'structure': '3.6.1', 'title': 'B\u00e0i t\u1eadp 2: Ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit', 'physical_index': '<physical_index_25>'}, {'structure': '3.6.2', 'title': 'B\u00e0i t\u1eadp 3: Nh\u00e2n hai s\u1ed1 nguy\u00ean kh\u00f4ng d\u1ea5u 8 bit', 'physical_index': '<physical_index_26>'}, {'structure': '3.6.3', 'title': 'B\u00e0i t\u1eadp 4: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1ef1c sang s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': '<physical_index_26>'}, {'structure': '3.6.4', 'title': 'B\u00e0i t\u1eadp 5: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': '<physical_index_27>'}, {'structure': '3.6.5', 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': '<physical_index_27>'}, {'structure': '3.6.6', 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'physical_index': '<physical_index_34>'}, {'structure': '3.6.7', 'title': 'B\u00e0i t\u1eadp 8: V\u1ebd s\u01a1 \u0111\u1ed3 pipeline v\u00e0 t\u00ednh to\u00e1n th\u1eddi gian chu k\u1ef3 c\u1ee7a CPU \u0111a chu k\u1ef3', 'physical_index': '<physical_index_35>'}, {'structure': '3.6.8', 'title': 'B\u00e0i t\u1eadp 9: Ph\u00e2n t\u00edch pipeline c\u1ee7a CPU \u0111a chu k\u1ef3 v\u1edbi d\u1ef1 \u0111o\u00e1n r\u1ebd nh\u00e1nh ho\u00e0n h\u1ea3o v\u00e0 k\u1ef9 thu\u1eadt forwarding', 'physical_index': '<physical_index_37>'}, {'structure': '4', 'title': 'Chapter 6', 'physical_index': '<physical_index_38>'}, {'structure': '4.1', 'title': 'T\u00ednh to\u00e1n c\u00e1c th\u00f4ng s\u1ed1 c\u1ee7a b\u1ed9 nh\u1edb', 'physical_index': '<physical_index_38>'}, {'structure': '4.2', 'title': 'X\u00e1c \u0111\u1ecbnh c\u00e1ch th\u1ee9c ho\u1ea1t \u0111\u1ed9ng c\u1ee7a b\u1ed9 nh\u1edb cache', 'physical_index': '<physical_index_39>'}, {'structure': '4.3', 'title': 'T\u00ednh to\u00e1n v\u00e0 \u0111\u00e1nh gi\u00e1 hi\u1ec7u n\u0103ng b\u1ed9 nh\u1edb cache', 'physical_index': '<physical_index_40>'}, {'structure': '4.4', 'title': 'Ki\u1ebfn tr\u00fac b\u1ed9 nh\u1edb', 'physical_index': '<physical_index_42>'}]"
+  },
+  {
+    "message": "convert_physical_index_to_int: [{'structure': '1', 'title': 'B\u00e0i t\u1eadp Ex2, Mid-term-2023-1-ans.pdf', 'physical_index': 1}, {'structure': '1.1', 'title': '\u0110\u1ec1 b\u00e0i: Cho b\u1ed9 x\u1eed l\u00fd 2 GHz th\u1ef1c hi\u1ec7n t\u1eadp l\u1ec7nh g\u1ed3m 5 l\u1edbp l\u1ec7nh A, B, C, D, E v\u1edbi CPI l\u1ea7n l\u01b0\u1ee3t l\u00e0 2, 3, 4, 6 v\u00e0 10.', 'physical_index': 1}, {'structure': '1.2', 'title': 'L\u1eddi gi\u1ea3i: CPI trung b\u00ecnh c\u1ee7a CPU \u0111\u01b0\u1ee3c t\u00ednh nh\u01b0 sau:', 'physical_index': 2}, {'structure': '1.2.1', 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P1:', 'physical_index': 2}, {'structure': '1.2.2', 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P2:', 'physical_index': 2}, {'structure': '1.2.3', 'title': 'T\u1ef7 l\u1ec7 gi\u1eefa th\u1eddi gian th\u1ef1c hi\u1ec7n c\u1ee7a P1 v\u00e0 P2:', 'physical_index': 2}, {'structure': '1.3', 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'physical_index': 2}, {'structure': '1.4', 'title': '\u0110\u1ec1 b\u00e0i: M\u1ed9t b\u1ed9 x\u1eed l\u00fd ch\u1ea1y ch\u01b0\u01a1ng tr\u00ecnh v\u1edbi t\u1ed1c \u0111\u1ed9 xung nh\u1ecbp l\u00e0 4 GHz.', 'physical_index': 2}, {'structure': '1.4.1', 'title': 'L\u1eddi gi\u1ea3i: CPI trung b\u00ecnh c\u1ee7a CPU:', 'physical_index': 2}, {'structure': '1.4.2', 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n ch\u01b0\u01a1ng tr\u00ecnh:', 'physical_index': 3}, {'structure': '1.5', 'title': 'B\u00e0i t\u1eadp 1.1, Baitap.pdf', 'physical_index': 3}, {'structure': '1.5.1', 'title': '\u0110\u1ec1 b\u00e0i: C\u00f3 3 b\u1ed9 x\u1eed l\u00fd P1, P2 v\u00e0 P3 c\u00f3 c\u00f9ng m\u1ed9t t\u1eadp l\u1ec7nh.', 'physical_index': 3}, {'structure': '1.5.2', 'title': 'L\u1eddi gi\u1ea3i: S\u1ed1 tri\u1ec7u l\u1ec7nh th\u1ef1c hi\u1ec7n tr\u00ean 1 gi\u00e2y (MIPS) c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh nh\u01b0 sau:', 'physical_index': 3}, {'structure': '1.5.3', 'title': 'C\u00e2u b: S\u1ed1 chu k\u1ef3 c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh b\u1eb1ng:', 'physical_index': 4}, {'structure': '1.5.4', 'title': 'C\u00e2u c: Th\u1eddi gian th\u1ef1c hi\u1ec7n m\u1edbi sau khi gi\u1ea3m 30% l\u00e0:', 'physical_index': 4}, {'structure': '1.6', 'title': 'B\u00e0i t\u1eadp 1.2, Baitap.pdf', 'physical_index': 4}, {'structure': '1.6.1', 'title': '\u0110\u1ec1 b\u00e0i: C\u00f3 hai b\u1ed9 x\u1eed l\u00fd c\u00f3 c\u00f9ng t\u1eadp l\u1ec7nh.', 'physical_index': 4}, {'structure': '1.6.2', 'title': 'L\u1eddi gi\u1ea3i: C\u00e2u a: B\u1ed9 x\u1eed l\u00fd n\u00e0o th\u1ef1c hi\u1ec7n nhanh h\u01a1n?', 'physical_index': 5}, {'structure': '1.6.3', 'title': 'C\u00e2u b: CPI trung b\u00ecnh cho m\u1ed7i b\u1ed9 x\u1eed l\u00fd?', 'physical_index': 5}, {'structure': '1.6.4', 'title': 'C\u00e2u c: T\u00ecm s\u1ed1 chu k\u1ef3 c\u1ea7n thi\u1ebft cho m\u1ed7i b\u1ed9 x\u1eed l\u00fd?', 'physical_index': 5}, {'structure': '2', 'title': 'Chapter 3', 'physical_index': 6}, {'structure': '2.1', 'title': 'C\u00e2u h\u1ecfi #f96f43, IT3030---Midterm_with answers.pdf', 'physical_index': 6}, {'structure': '2.1.1', 'title': '\u0110\u1ec1 b\u00e0i: Ch\u1ecdn c\u00e2u tr\u1ea3 l\u1eddi \u0111\u1ec3 th\u1ef1c hi\u1ec7n c\u00e2u l\u1ec7nh C sau trong RISC-V:', 'physical_index': 6}, {'structure': '2.1.2', 'title': 'L\u1eddi gi\u1ea3i: \u0110\u1ec3 th\u1ef1c hi\u1ec7n c\u00e2u l\u1ec7nh C *a = b + c; trong h\u1ee3p ng\u1eef RISC-V, ta c\u1ea7n th\u1ef1c hi\u1ec7n c\u00e1c b\u01b0\u1edbc sau:', 'physical_index': 6}, {'structure': '2.2', 'title': 'C\u00e2u h\u1ecfi #5e7591, IT3030---Midterm_with answers.pdf', 'physical_index': 7}, {'structure': '2.2.1', 'title': '\u0110\u1ec1 b\u00e0i: Gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a thanh ghi s4 sau khi th\u1ef1c hi\u1ec7n c\u00e1c l\u1ec7nh d\u01b0\u1edbi \u0111\u00e2y l\u00e0 bao nhi\u00eau?', 'physical_index': 7}, {'structure': '2.2.2', 'title': 'L\u1eddi gi\u1ea3i: Ph\u00e2n t\u00edch t\u1eebng l\u1ec7nh:', 'physical_index': 7}, {'structure': '2.3', 'title': 'B\u00e0i t\u1eadp Ex3, IT3030E-CA-Chap3-ISA-Exercises.pdf', 'physical_index': 8}, {'structure': '2.3.1', 'title': '\u0110\u1ec1 b\u00e0i: Bi\u00ean d\u1ecbch ng\u01b0\u1ee3c m\u00e3 h\u1ee3p ng\u1eef RISC-V sau \u0111\u00e2y sang m\u00e3 C t\u01b0\u01a1ng \u0111\u01b0\u01a1ng.', 'physical_index': 8}, {'structure': '2.4', 'title': 'B\u00e0i t\u1eadp Ex4, IT3030E-CA-Chap3-ISA-Exercises.pdf', 'physical_index': 10}, {'structure': '2.4.1', 'title': '\u0110\u1ec1 b\u00e0i: T\u00ecm \u0111\u1ecbnh d\u1ea1ng v\u00e0 m\u00e3 m\u00e1y c\u1ee7a l\u1ec7nh sau: sw x5, 32(x30)', 'physical_index': 10}, {'structure': '2.5', 'title': 'B\u00e0i t\u1eadp 3.5: \u0110\u1ec1 b\u00e0i: Chuy\u1ec3n \u0111\u1ed5i c\u00e1c l\u1ec7nh m\u00e3 m\u00e1y RISC-V sau \u0111\u00e2y sang d\u1ea1ng l\u1ec7nh h\u1ee3p ng\u1eef:', 'physical_index': 12}, {'structure': '2.5.1', 'title': '0x2237FFF1:', 'physical_index': 12}, {'structure': '2.5.2', 'title': '0x02F34022:', 'physical_index': 12}, {'structure': '2.5.3', 'title': '0x8E93FFE8:', 'physical_index': 12}, {'structure': '3', 'title': 'Chapter 4', 'physical_index': 20}, {'structure': '3.1', 'title': 'C\u00e2u h\u1ecfi #94ec4c, IT3030---Midterm_with answers.pdf', 'physical_index': 20}, {'structure': '3.1.1', 'title': '\u0110\u1ec1 b\u00e0i: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1eadp ph\u00e2n -31.75 d\u01b0\u1edbi d\u1ea1ng s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754 \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c.', 'physical_index': 20}, {'structure': '3.2', 'title': 'C\u00e2u h\u1ecfi #386374, IT3030---Midterm_with answers.pdf', 'physical_index': 21}, {'structure': '3.2.1', 'title': '\u0110\u1ec1 b\u00e0i: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1eadp ph\u00e2n 12.25 d\u01b0\u1edbi d\u1ea1ng s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754 \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c.', 'physical_index': 21}, {'structure': '3.3', 'title': 'C\u00e2u h\u1ecfi #bd4c95, IT3030---Midterm_with answers.pdf', 'physical_index': 22}, {'structure': '3.3.1', 'title': '\u0110\u1ec1 b\u00e0i: Cho s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c 01000001010100000000000000000000. X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 n\u00e0y.', 'physical_index': 22}, {'structure': '3.4', 'title': 'C\u00e2u h\u1ecfi #f2d536, IT3030---Midterm_with answers.pdf', 'physical_index': 23}, {'structure': '3.4.1', 'title': '\u0110\u1ec1 b\u00e0i: T\u00ecm k\u1ebft qu\u1ea3 c\u1ee7a ph\u00e9p to\u00e1n 10110110 + 01101101 v\u1edbi hai to\u00e1n h\u1ea1ng l\u00e0 c\u00e1c s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit.', 'physical_index': 23}, {'structure': '3.5', 'title': 'C\u00e2u h\u1ecfi #e83dac, IT3030---Midterm_with answers.pdf', 'physical_index': 24}, {'structure': '3.5.1', 'title': '\u0110\u1ec1 b\u00e0i: X\u00e1c \u0111\u1ecbnh tr\u01b0\u1eddng h\u1ee3p tr\u00e0n s\u1ed1 trong ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 32 bit.', 'physical_index': 24}, {'structure': '3.6', 'title': 'B\u00e0i t\u1eadp 1: Bi\u1ec3u di\u1ec5n s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u v\u00e0 chuy\u1ec3n \u0111\u1ed5i sang h\u1ec7 hexa', 'physical_index': 25}, {'structure': '3.6.1', 'title': 'B\u00e0i t\u1eadp 2: Ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit', 'physical_index': 25}, {'structure': '3.6.2', 'title': 'B\u00e0i t\u1eadp 3: Nh\u00e2n hai s\u1ed1 nguy\u00ean kh\u00f4ng d\u1ea5u 8 bit', 'physical_index': 26}, {'structure': '3.6.3', 'title': 'B\u00e0i t\u1eadp 4: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1ef1c sang s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': 26}, {'structure': '3.6.4', 'title': 'B\u00e0i t\u1eadp 5: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': 27}, {'structure': '3.6.5', 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': 27}, {'structure': '3.6.6', 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'physical_index': 34}, {'structure': '3.6.7', 'title': 'B\u00e0i t\u1eadp 8: V\u1ebd s\u01a1 \u0111\u1ed3 pipeline v\u00e0 t\u00ednh to\u00e1n th\u1eddi gian chu k\u1ef3 c\u1ee7a CPU \u0111a chu k\u1ef3', 'physical_index': 35}, {'structure': '3.6.8', 'title': 'B\u00e0i t\u1eadp 9: Ph\u00e2n t\u00edch pipeline c\u1ee7a CPU \u0111a chu k\u1ef3 v\u1edbi d\u1ef1 \u0111o\u00e1n r\u1ebd nh\u00e1nh ho\u00e0n h\u1ea3o v\u00e0 k\u1ef9 thu\u1eadt forwarding', 'physical_index': 37}, {'structure': '4', 'title': 'Chapter 6', 'physical_index': 38}, {'structure': '4.1', 'title': 'T\u00ednh to\u00e1n c\u00e1c th\u00f4ng s\u1ed1 c\u1ee7a b\u1ed9 nh\u1edb', 'physical_index': 38}, {'structure': '4.2', 'title': 'X\u00e1c \u0111\u1ecbnh c\u00e1ch th\u1ee9c ho\u1ea1t \u0111\u1ed9ng c\u1ee7a b\u1ed9 nh\u1edb cache', 'physical_index': 39}, {'structure': '4.3', 'title': 'T\u00ednh to\u00e1n v\u00e0 \u0111\u00e1nh gi\u00e1 hi\u1ec7u n\u0103ng b\u1ed9 nh\u1edb cache', 'physical_index': 40}, {'structure': '4.4', 'title': 'Ki\u1ebfn tr\u00fac b\u1ed9 nh\u1edb', 'physical_index': 42}]"
+  },
+  {
+    "mode": "process_toc_with_page_numbers",
+    "accuracy": 0.6833333333333333,
+    "incorrect_results": [
+      {
+        "list_index": 6,
+        "answer": "no",
+        "title": "C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf",
+        "page_number": 2
+      },
+      {
+        "list_index": 9,
+        "answer": "no",
+        "title": "Th\u1eddi gian th\u1ef1c hi\u1ec7n ch\u01b0\u01a1ng tr\u00ecnh:",
+        "page_number": 3
+      },
+      {
+        "list_index": 13,
+        "answer": "no",
+        "title": "C\u00e2u b: S\u1ed1 chu k\u1ef3 c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh b\u1eb1ng:",
+        "page_number": 4
+      },
+      {
+        "list_index": 24,
+        "answer": "no",
+        "title": "C\u00e2u h\u1ecfi #5e7591, IT3030---Midterm_with answers.pdf",
+        "page_number": 7
+      },
+      {
+        "list_index": 27,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp Ex3, IT3030E-CA-Chap3-ISA-Exercises.pdf",
+        "page_number": 8
+      },
+      {
+        "list_index": 28,
+        "answer": "no",
+        "title": "\u0110\u1ec1 b\u00e0i: Bi\u00ean d\u1ecbch ng\u01b0\u1ee3c m\u00e3 h\u1ee3p ng\u1eef RISC-V sau \u0111\u00e2y sang m\u00e3 C t\u01b0\u01a1ng \u0111\u01b0\u01a1ng.",
+        "page_number": 8
+      },
+      {
+        "list_index": 29,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp Ex4, IT3030E-CA-Chap3-ISA-Exercises.pdf",
+        "page_number": 10
+      },
+      {
+        "list_index": 30,
+        "answer": "no",
+        "title": "\u0110\u1ec1 b\u00e0i: T\u00ecm \u0111\u1ecbnh d\u1ea1ng v\u00e0 m\u00e3 m\u00e1y c\u1ee7a l\u1ec7nh sau: sw x5, 32(x30)",
+        "page_number": 10
+      },
+      {
+        "list_index": 35,
+        "answer": "no",
+        "title": "Chapter 4",
+        "page_number": 20
+      },
+      {
+        "list_index": 40,
+        "answer": "no",
+        "title": "C\u00e2u h\u1ecfi #bd4c95, IT3030---Midterm_with answers.pdf",
+        "page_number": 22
+      },
+      {
+        "list_index": 42,
+        "answer": "no",
+        "title": "C\u00e2u h\u1ecfi #f2d536, IT3030---Midterm_with answers.pdf",
+        "page_number": 23
+      },
+      {
+        "list_index": 43,
+        "answer": "no",
+        "title": "\u0110\u1ec1 b\u00e0i: T\u00ecm k\u1ebft qu\u1ea3 c\u1ee7a ph\u00e9p to\u00e1n 10110110 + 01101101 v\u1edbi hai to\u00e1n h\u1ea1ng l\u00e0 c\u00e1c s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit.",
+        "page_number": 23
+      },
+      {
+        "list_index": 44,
+        "answer": "no",
+        "title": "C\u00e2u h\u1ecfi #e83dac, IT3030---Midterm_with answers.pdf",
+        "page_number": 24
+      },
+      {
+        "list_index": 45,
+        "answer": "no",
+        "title": "\u0110\u1ec1 b\u00e0i: X\u00e1c \u0111\u1ecbnh tr\u01b0\u1eddng h\u1ee3p tr\u00e0n s\u1ed1 trong ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 32 bit.",
+        "page_number": 24
+      },
+      {
+        "list_index": 46,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp 1: Bi\u1ec3u di\u1ec5n s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u v\u00e0 chuy\u1ec3n \u0111\u1ed5i sang h\u1ec7 hexa",
+        "page_number": 25
+      },
+      {
+        "list_index": 48,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp 3: Nh\u00e2n hai s\u1ed1 nguy\u00ean kh\u00f4ng d\u1ea5u 8 bit",
+        "page_number": 26
+      },
+      {
+        "list_index": 51,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754",
+        "page_number": 27
+      },
+      {
+        "list_index": 52,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding",
+        "page_number": 34
+      },
+      {
+        "list_index": 54,
+        "answer": "no",
+        "title": "B\u00e0i t\u1eadp 9: Ph\u00e2n t\u00edch pipeline c\u1ee7a CPU \u0111a chu k\u1ef3 v\u1edbi d\u1ef1 \u0111o\u00e1n r\u1ebd nh\u00e1nh ho\u00e0n h\u1ea3o v\u00e0 k\u1ef9 thu\u1eadt forwarding",
+        "page_number": 37
+      }
+    ]
+  },
+  {
+    "message": "incorrect_results_and_range_logs: [{'list_index': 6, 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'prev_correct': 2, 'next_correct': 2}, {'list_index': 9, 'title': 'Th\u1eddi gian th\u1ef1c hi\u1ec7n ch\u01b0\u01a1ng tr\u00ecnh:', 'prev_correct': 2, 'next_correct': 3}, {'list_index': 13, 'title': 'C\u00e2u b: S\u1ed1 chu k\u1ef3 c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh b\u1eb1ng:', 'prev_correct': 3, 'next_correct': 4}, {'list_index': 24, 'title': 'C\u00e2u h\u1ecfi #5e7591, IT3030---Midterm_with answers.pdf', 'prev_correct': 6, 'next_correct': 7}, {'list_index': 27, 'title': 'B\u00e0i t\u1eadp Ex3, IT3030E-CA-Chap3-ISA-Exercises.pdf', 'prev_correct': 7, 'next_correct': 12}, {'list_index': 28, 'title': '\u0110\u1ec1 b\u00e0i: Bi\u00ean d\u1ecbch ng\u01b0\u1ee3c m\u00e3 h\u1ee3p ng\u1eef RISC-V sau \u0111\u00e2y sang m\u00e3 C t\u01b0\u01a1ng \u0111\u01b0\u01a1ng.', 'prev_correct': 7, 'next_correct': 12}, {'list_index': 29, 'title': 'B\u00e0i t\u1eadp Ex4, IT3030E-CA-Chap3-ISA-Exercises.pdf', 'prev_correct': 7, 'next_correct': 12}, {'list_index': 30, 'title': '\u0110\u1ec1 b\u00e0i: T\u00ecm \u0111\u1ecbnh d\u1ea1ng v\u00e0 m\u00e3 m\u00e1y c\u1ee7a l\u1ec7nh sau: sw x5, 32(x30)', 'prev_correct': 7, 'next_correct': 12}, {'list_index': 35, 'title': 'Chapter 4', 'prev_correct': 12, 'next_correct': 20}, {'list_index': 40, 'title': 'C\u00e2u h\u1ecfi #bd4c95, IT3030---Midterm_with answers.pdf', 'prev_correct': 21, 'next_correct': 22}, {'list_index': 42, 'title': 'C\u00e2u h\u1ecfi #f2d536, IT3030---Midterm_with answers.pdf', 'prev_correct': 22, 'next_correct': 25}, {'list_index': 43, 'title': '\u0110\u1ec1 b\u00e0i: T\u00ecm k\u1ebft qu\u1ea3 c\u1ee7a ph\u00e9p to\u00e1n 10110110 + 01101101 v\u1edbi hai to\u00e1n h\u1ea1ng l\u00e0 c\u00e1c s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit.', 'prev_correct': 22, 'next_correct': 25}, {'list_index': 44, 'title': 'C\u00e2u h\u1ecfi #e83dac, IT3030---Midterm_with answers.pdf', 'prev_correct': 22, 'next_correct': 25}, {'list_index': 45, 'title': '\u0110\u1ec1 b\u00e0i: X\u00e1c \u0111\u1ecbnh tr\u01b0\u1eddng h\u1ee3p tr\u00e0n s\u1ed1 trong ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 32 bit.', 'prev_correct': 22, 'next_correct': 25}, {'list_index': 46, 'title': 'B\u00e0i t\u1eadp 1: Bi\u1ec3u di\u1ec5n s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u v\u00e0 chuy\u1ec3n \u0111\u1ed5i sang h\u1ec7 hexa', 'prev_correct': 22, 'next_correct': 25}, {'list_index': 48, 'title': 'B\u00e0i t\u1eadp 3: Nh\u00e2n hai s\u1ed1 nguy\u00ean kh\u00f4ng d\u1ea5u 8 bit', 'prev_correct': 25, 'next_correct': 26}, {'list_index': 51, 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'prev_correct': 27, 'next_correct': 35}, {'list_index': 52, 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'prev_correct': 27, 'next_correct': 35}, {'list_index': 54, 'title': 'B\u00e0i t\u1eadp 9: Ph\u00e2n t\u00edch pipeline c\u1ee7a CPU \u0111a chu k\u1ef3 v\u1edbi d\u1ef1 \u0111o\u00e1n r\u1ebd nh\u00e1nh ho\u00e0n h\u1ea3o v\u00e0 k\u1ef9 thu\u1eadt forwarding', 'prev_correct': 35, 'next_correct': 38}]"
+  },
+  {
+    "message": "invalid_results: [{'list_index': 6, 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'physical_index': 2}, {'list_index': 35, 'title': 'Chapter 4', 'physical_index': 20}, {'list_index': 51, 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': 27}, {'list_index': 52, 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'physical_index': 34}]"
+  },
+  {
+    "message": "incorrect_results_and_range_logs: [{'list_index': 6, 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'prev_correct': 2, 'next_correct': 2}, {'list_index': 35, 'title': 'Chapter 4', 'prev_correct': 12, 'next_correct': 20}, {'list_index': 51, 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'prev_correct': 27, 'next_correct': 35}, {'list_index': 52, 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'prev_correct': 27, 'next_correct': 35}]"
+  },
+  {
+    "message": "invalid_results: [{'list_index': 6, 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'physical_index': 2}, {'list_index': 35, 'title': 'Chapter 4', 'physical_index': 20}, {'list_index': 51, 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': 27}, {'list_index': 52, 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'physical_index': 34}]"
+  },
+  {
+    "message": "incorrect_results_and_range_logs: [{'list_index': 6, 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'prev_correct': 2, 'next_correct': 2}, {'list_index': 35, 'title': 'Chapter 4', 'prev_correct': 12, 'next_correct': 20}, {'list_index': 51, 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'prev_correct': 27, 'next_correct': 35}, {'list_index': 52, 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'prev_correct': 27, 'next_correct': 35}]"
+  },
+  {
+    "message": "invalid_results: [{'list_index': 6, 'title': 'C\u00e2u h\u1ecfi #8cf496, IT3030---Midterm_with answers.pdf', 'physical_index': 2}, {'list_index': 35, 'title': 'Chapter 4', 'physical_index': 20}, {'list_index': 51, 'title': 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754', 'physical_index': 27}, {'list_index': 52, 'title': 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding', 'physical_index': 34}]"
+  },
+  {
+    "message": "Maximum fix attempts reached"
+  },
+  {
+    "message": "Checking title appearance in start concurrently"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp Ex2, Mid-term-2023-1-ans.pdf' does not appear at the very beginning of the page_text. Instead, there is a preceding content 'Chapter 1' before the section title, indicating that the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Cho b\u1ed9 x\u1eed l\u00fd 2 GHz th\u1ef1c hi\u1ec7n t\u1eadp l\u1ec7nh g\u1ed3m 5 l\u1edbp l\u1ec7nh A, B, C, D, E v\u1edbi CPI l\u1ea7n l\u01b0\u1ee3t l\u00e0 2, 3, 4, 6 v\u00e0 10.' appears after the word 'Chapter' and other contents, indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'L\u1eddi gi\u1ea3i: CPI trung b\u00ecnh c\u1ee7a CPU \u0111\u01b0\u1ee3c t\u00ednh nh\u01b0 sau:' does not appear at the beginning of the page_text. There is a significant amount of content before it, including information about the execution time of P1 and P2, and a question about the execution time of a program. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P1:' appears after several lines of text, indicating that it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P2:' does not appear at the beginning of the page_text. Instead, the text starts with 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P1:', indicating that there is content before the current section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'T\u1ef7 l\u1ec7 gi\u1eefa th\u1eddi gian th\u1ef1c hi\u1ec7n c\u1ee7a P1 v\u00e0 P2:' does not appear at the beginning of the page_text. Instead, there is content related to the execution time of P1 and P2 before this section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #8cf496' does not appear at the beginning of the page_text. Instead, there is content related to execution time calculations for P1 and P2 before the section title is mentioned. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: M\u1ed9t b\u1ed9 x\u1eed l\u00fd ch\u1ea1y ch\u01b0\u01a1ng tr\u00ecnh v\u1edbi t\u1ed1c \u0111\u1ed9 xung nh\u1ecbp l\u00e0 4 GHz.' appears after a significant amount of text discussing the execution time of P1 and P2. Therefore, it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'L\u1eddi gi\u1ea3i: CPI trung b\u00ecnh c\u1ee7a CPU:' appears after a significant amount of text discussing the execution time of P1 and P2, as well as a problem statement. Therefore, it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Th\u1eddi gian th\u1ef1c hi\u1ec7n ch\u01b0\u01a1ng tr\u00ecnh:' does not appear at the beginning of the page_text. Instead, the text starts with 'Th\u1eddi gian th\u1ef1c hi\u1ec7n c\u00f4ng vi\u1ec7c c\u1ee7a P1:', which indicates that there is content before the section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 1.1' appears after some content related to 'Th\u1eddi gian' and calculations. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: C\u00f3 3 b\u1ed9 x\u1eed l\u00fd P1, P2 v\u00e0 P3 c\u00f3 c\u00f9ng m\u1ed9t t\u1eadp l\u1ec7nh.' appears after other content in the page_text, specifically after a discussion about time calculations and before the section that provides the solutions. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'L\u1eddi gi\u1ea3i: S\u1ed1 tri\u1ec7u l\u1ec7nh th\u1ef1c hi\u1ec7n tr\u00ean 1 gi\u00e2y (MIPS) c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh nh\u01b0 sau:' appears after a significant amount of text, indicating that it does not start at the beginning of the page_text. The text preceding it includes various calculations and a problem statement, which confirms that the section title is not the first content in the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u b: S\u1ed1 chu k\u1ef3 c\u1ee7a m\u1ed7i b\u1ed9 x\u1eed l\u00fd \u0111\u01b0\u1ee3c t\u00ednh b\u1eb1ng:' appears after a significant amount of text that discusses other topics and calculations related to the processors. Therefore, it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u c: Th\u1eddi gian th\u1ef1c hi\u1ec7n m\u1edbi sau khi gi\u1ea3m 30% l\u00e0:' appears after a significant amount of text discussing other topics, indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 1.2, Baitap.pdf' appears after a significant amount of text discussing various calculations and results. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: C\u00f3 hai b\u1ed9 x\u1eed l\u00fd c\u00f3 c\u00f9ng t\u1eadp l\u1ec7nh.' appears after a significant amount of text discussing other topics, indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'L\u1eddi gi\u1ea3i: C\u00e2u a: B\u1ed9 x\u1eed l\u00fd n\u00e0o th\u1ef1c hi\u1ec7n nhanh h\u01a1n?' does not appear at the beginning of the page_text. Instead, there is content before it, specifically the text 'a. B\u1ed9 x\u1eed l\u00fd n\u00e0o th\u1ef1c hi\u1ec7n nhanh h\u01a1n?'. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u b: CPI trung b\u00ecnh cho m\u1ed7i b\u1ed9 x\u1eed l\u00fd?' appears after other content in the page_text, specifically after the content related to 'C\u00e2u a' and before 'C\u00e2u c'. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u c: T\u00ecm s\u1ed1 chu k\u1ef3 c\u1ea7n thi\u1ebft cho m\u1ed7i b\u1ed9 x\u1eed l\u00fd?' appears after other content, specifically after 'C\u00e2u b: CPI trung b\u00ecnh \u0111\u00e3 \u0111\u01b0\u1ee3c t\u00ednh \u1edf c\u00e2u a:'. Therefore, it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Chapter 3' does not appear at the beginning of the page_text. Instead, the text starts with 'Chapter' followed by a line break and then '3', indicating that there is content before the section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #f96f43, IT3030---Midterm_with answers.pdf' does not appear at the very beginning of the page_text. Instead, there is a preceding text 'Chapter 3' before the section title, indicating that the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Ch\u1ecdn c\u00e2u tr\u1ea3 l\u1eddi \u0111\u1ec3 th\u1ef1c hi\u1ec7n c\u00e2u l\u1ec7nh C sau trong RISC-V:' appears after other content, specifically the word 'Chapter' and the number '3', indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'L\u1eddi gi\u1ea3i: \u0110\u1ec3 th\u1ef1c hi\u1ec7n c\u00e2u l\u1ec7nh C *a = b + c; trong h\u1ee3p ng\u1eef RISC-V, ta c\u1ea7n th\u1ef1c hi\u1ec7n c\u00e1c b\u01b0\u1edbc sau:' appears after other content in the page_text, specifically after the question and explanation about the C statement. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #5e7591, IT3030---Midterm_with answers.pdf' appears after other content in the page_text, specifically after 'C\u00e2u h\u1ecfi #f96f43, IT3030---Midterm_with answers.pdf' and the associated problem and solution. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a thanh ghi s4 sau khi th\u1ef1c hi\u1ec7n c\u00e1c l\u1ec7nh d\u01b0\u1edbi \u0111\u00e2y l\u00e0 bao nhi\u00eau?' does not appear at the beginning of the page_text. The page_text starts with a list of instructions and explanations, and the section title appears later in the text. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'L\u1eddi gi\u1ea3i: Ph\u00e2n t\u00edch t\u1eebng l\u1ec7nh:' appears after a significant amount of content in the page_text. There are multiple lines of text before this section title, indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp Ex3, IT3030E-CA-Chap3-ISA-Exercises.pdf' appears after several lines of content that describe various assembly instructions. Since there is text before the section title, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Bi\u00ean d\u1ecbch ng\u01b0\u1ee3c m\u00e3 h\u1ee3p ng\u1eef RISC-V sau \u0111\u00e2y sang m\u00e3 C t\u01b0\u01a1ng \u0111\u01b0\u01a1ng.' appears after several lines of content related to RISC-V assembly instructions. Therefore, it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp Ex4, IT3030E-CA-Chap3-ISA-Exercises.pdf' appears after a significant amount of content, indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: T\u00ecm \u0111\u1ecbnh d\u1ea1ng v\u00e0 m\u00e3 m\u00e1y c\u1ee7a l\u1ec7nh sau: sw x5, 32(x30).' appears after several lines of content that discuss other instructions and their explanations. Therefore, it does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 3.5: \u0110\u1ec1 b\u00e0i: Chuy\u1ec3n \u0111\u1ed5i c\u00e1c l\u1ec7nh m\u00e3 m\u00e1y RISC-V sau \u0111\u00e2y sang d\u1ea1ng l\u1ec7nh h\u1ee3p ng\u1eef:' appears after other content in the page_text, specifically after details about a machine instruction. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '0x2237FFF1:' appears after other content in the page_text, specifically after a list of instructions and a problem statement. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '0x02F34022:' does not appear at the beginning of the page_text. There is other content before it, including a list of instructions and a previous section title '0x2237FFF1:'. Therefore, the current section does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '0x8E93FFE8:' does not appear at the beginning of the page_text. There are other contents before it, including a bullet point and other section titles.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Chapter 4' does not appear at the beginning of the page_text. Instead, the text starts with 'Chapter' followed by '4', indicating that there is content before the section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #94ec4c, IT3030---Midterm_with answers.pdf' does not appear at the very beginning of the page_text. Instead, the page starts with 'Chapter 4', indicating that there is content before the section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1eadp ph\u00e2n -31.75 d\u01b0\u1edbi d\u1ea1ng s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754 \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c.' appears after the text 'Chapter 4 C\u00e2u h\u1ecfi #94ec4c, IT3030---Midterm_with answers.pdf', indicating that there is content before the section title in the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #386374, IT3030---Midterm_with answers.pdf' is not the first content in the given page_text. The text starts with 'C\u00e2u h\u1ecfi #386374,' followed by a line break and additional content, indicating that there is other content before the section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1eadp ph\u00e2n 12.25 d\u01b0\u1edbi d\u1ea1ng s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754 \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c.' appears after the text 'C\u00e2u h\u1ecfi #386374, IT3030---Midterm_with answers.pdf', indicating that there is content before the section title in the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #bd4c95, IT3030---Midterm_with answers.pdf' appears after other content in the page_text, specifically after 'C\u00e2u h\u1ecfi #386374, IT3030---Midterm_with answers.pdf' and the subsequent problem and solution details. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: Cho s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng \u0111\u01a1n \u0111\u1ed9 ch\u00ednh x\u00e1c 01000001010100000000000000000000. X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 n\u00e0y.' appears after the first occurrence of '\u0110\u1ec1 b\u00e0i:' in the page_text, indicating that there is content before it. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #f2d536, IT3030---Midterm_with answers.pdf' appears after other content in the page_text, specifically after a problem statement and its solution. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: T\u00ecm k\u1ebft qu\u1ea3 c\u1ee7a ph\u00e9p to\u00e1n 10110110 + 01101101 v\u1edbi hai to\u00e1n h\u1ea1ng l\u00e0 c\u00e1c s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit.' appears after other content in the page_text. The first occurrence of '\u0110\u1ec1 b\u00e0i:' is followed by a different problem before the current section title is reached, indicating that it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'C\u00e2u h\u1ecfi #e83dac, IT3030---Midterm_with answers.pdf' appears after several lines of content in the page_text. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title '\u0110\u1ec1 b\u00e0i: X\u00e1c \u0111\u1ecbnh tr\u01b0\u1eddng h\u1ee3p tr\u00e0n s\u1ed1 trong ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 32 bit.' appears after other content in the page_text, indicating that it does not start at the beginning.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 1: Bi\u1ec3u di\u1ec5n s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u v\u00e0 chuy\u1ec3n \u0111\u1ed5i sang h\u1ec7 hexa' appears after other content in the page_text, indicating that it does not start at the beginning.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 2: Ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit' does not appear at the beginning of the page_text. Instead, there are other contents, including '-1' and '11111111', before the section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 3: Nh\u00e2n hai s\u1ed1 nguy\u00ean kh\u00f4ng d\u1ea5u 8 bit' appears after the content related to 'B\u00e0i t\u1eadp 2: Ph\u00e9p c\u1ed9ng s\u1ed1 nguy\u00ean c\u00f3 d\u1ea5u 8 bit'. This indicates that there is content before the current section title, meaning it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 4: Bi\u1ec3u di\u1ec5n s\u1ed1 th\u1ef1c sang s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754' appears after other content in the page_text, specifically after some binary numbers and a line labeled 'K\u1ebft qu\u1ea3:'. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 5: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754' appears after other content in the page_text, specifically after a list of results and calculations. Therefore, it does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 6: X\u00e1c \u0111\u1ecbnh gi\u00e1 tr\u1ecb th\u1eadp ph\u00e2n c\u1ee7a s\u1ed1 d\u1ea5u ph\u1ea9y \u0111\u1ed9ng IEEE 754' does not appear at the beginning of the page_text. Instead, the text starts with 'Bi\u1ec3u di\u1ec5n ph\u1ea7n m\u0169 d\u01b0\u1edbi d\u1ea1ng nh\u1ecb ph\u00e2n.' which indicates that there is content before the section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 7: So s\u00e1nh hi\u1ec7u n\u0103ng c\u1ee7a CPU \u0111\u01a1n chu k\u1ef3 v\u1edbi c\u00e1c phi\u00ean b\u1ea3n kh\u00e1c nhau v\u1ec1 k\u1ef9 thu\u1eadt forwarding.' does not appear at the beginning of the page_text. Instead, there is content before it, specifically the section 'B\u00e0i t\u1eadp Ex6: Ph\u00e1t hi\u1ec7n v\u00e0 x\u00e1c \u0111\u1ecbnh c\u00e1c d\u1ea1ng xung \u0111\u1ed9t (hazard) trong pipeline'. Therefore, the current section does not start at the beginning of the given page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 8: V\u1ebd s\u01a1 \u0111\u1ed3 pipeline v\u00e0 t\u00ednh to\u00e1n th\u1eddi gian chu k\u1ef3 c\u1ee7a CPU \u0111a chu k\u1ef3.' does not appear at the beginning of the page_text. Instead, there is content before it, indicating that the section does not start at the beginning.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'B\u00e0i t\u1eadp 9: Ph\u00e2n t\u00edch pipeline c\u1ee7a CPU \u0111a chu k\u1ef3 v\u1edbi d\u1ef1 \u0111o\u00e1n r\u1ebd nh\u00e1nh ho\u00e0n h\u1ea3o v\u00e0 k\u1ef9 thu\u1eadt forwarding' does not appear at the beginning of the page_text. Instead, the page starts with content about the timing of the pipeline stages, indicating that there is other content before the section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Chapter 6' does not appear at the beginning of the page_text. Instead, the text starts with 'Chapter' followed by '6' on the next line, indicating that there is content before the section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'T\u00ednh to\u00e1n c\u00e1c th\u00f4ng s\u1ed1 c\u1ee7a b\u1ed9 nh\u1edb' appears after the word 'Chapter' and the number '6', indicating that there is content before the section title. Therefore, the section does not start at the beginning of the page_text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'X\u00e1c \u0111\u1ecbnh c\u00e1ch th\u1ee9c ho\u1ea1t \u0111\u1ed9ng c\u1ee7a b\u1ed9 nh\u1edb cache' appears after some content in the page_text, indicating that it does not start at the beginning of the text.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'T\u00ednh to\u00e1n v\u00e0 \u0111\u00e1nh gi\u00e1 hi\u1ec7u n\u0103ng b\u1ed9 nh\u1edb cache' appears after several lines of text, indicating that it does not start at the beginning of the page_text. There are multiple bullet points and explanations preceding the section title.\", 'start_begin': 'no'}"
+  },
+  {
+    "message": "Response: {'thinking': \"The section title 'Ki\u1ebfn tr\u00fac b\u1ed9 nh\u1edb' does not appear at the beginning of the page_text. Instead, there is content preceding it, indicating that the section does not start at the beginning of the text.\", 'start_begin': 'no'}"
+  }
+]

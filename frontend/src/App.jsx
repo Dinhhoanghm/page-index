@@ -417,14 +417,14 @@ export default function App() {
 
         <div style={s.divider} />
 
-        {/* API keys (masked) */}
+        {/* LLM provider key */}
         <div>
-          <div style={s.sectionLabel}>API Keys</div>
-          <div style={{ ...s.keyVal, marginBottom: 4 }}>
-            PageIndex: <span style={s.keyMasked}>{mask(import.meta.env.VITE_PAGEINDEX_KEY)}</span>
-          </div>
+          <div style={s.sectionLabel}>LLM Provider</div>
           <div style={s.keyVal}>
-            OpenAI: <span style={s.keyMasked}>{mask(import.meta.env.VITE_OPENAI_KEY)}</span>
+            {import.meta.env.VITE_ANTHROPIC_KEY
+              ? <>Anthropic: <span style={s.keyMasked}>{mask(import.meta.env.VITE_ANTHROPIC_KEY)}</span></>
+              : <>OpenAI: <span style={s.keyMasked}>{mask(import.meta.env.VITE_OPENAI_KEY)}</span></>
+            }
           </div>
         </div>
 

@@ -1,23 +1,35 @@
 #!/usr/bin/env python3
+"""
+PageIndex RAG API — local mode (no PageIndex cloud API key required).
+
+All document indexing is done locally using the open-source PageIndex library
+in ./PageIndex. LLM calls (retrieval reasoning + answer generation) use
+ANTHROPIC_API_KEY or OPENAI_API_KEY from .env.
+"""
 
 import os
 import json
-import tempfile
+import sys
+import uuid
 import asyncio
 from pathlib import Path
 from typing import AsyncGenerator
 
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
+# Use the local open-source PageIndex library
+sys.path.insert(0, str(Path(__file__).parent / "PageIndex"))
+
 load_dotenv()
 
-PAGEINDEX_API_KEY = os.getenv("PAGEINDEX_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY")
+WORKSPACE_DIR     = os.getenv("WORKSPACE_DIR", "./workspace")
+UPLOADS_DIR       = os.getenv("UPLOADS_DIR", "./uploads")
 
 app = FastAPI(title="PageIndex RAG API")
 
@@ -29,11 +41,103 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def _pi_client():
-    if not PAGEINDEX_API_KEY:
-        raise HTTPException(status_code=500, detail="PAGEINDEX_API_KEY not configured")
-    from pageindex import PageIndexClient
-    return PageIndexClient(api_key=PAGEINDEX_API_KEY)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Singleton PageIndex client + persistent job tracking
+# ─────────────────────────────────────────────────────────────────────────────
+
+_pi_client_instance = None
+_jobs: dict = {}  # job_id → {status, real_doc_id, name, page_count}
+
+
+def _jobs_file_path() -> Path:
+    p = Path(WORKSPACE_DIR)
+    p.mkdir(parents=True, exist_ok=True)
+    return p / "jobs.json"
+
+
+def _load_jobs():
+    global _jobs
+    path = _jobs_file_path()
+    if path.exists():
+        try:
+            with open(path) as f:
+                _jobs = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            _jobs = {}
+
+
+def _save_jobs():
+    try:
+        with open(_jobs_file_path(), "w") as f:
+            json.dump(_jobs, f, indent=2)
+    except OSError:
+        pass
+
+
+def _get_pi_client():
+    global _pi_client_instance
+    if _pi_client_instance is None:
+        from pageindex import PageIndexClient
+        _pi_client_instance = PageIndexClient(workspace=WORKSPACE_DIR)
+    return _pi_client_instance
+
+
+def _find_existing_doc(file_path: str) -> str | None:
+    """Return real doc_id if file is already indexed in workspace, else None."""
+    abs_path = os.path.abspath(file_path)
+    pi = _get_pi_client()
+    for doc_id, doc in pi.documents.items():
+        if doc.get("path") == abs_path:
+            return doc_id
+    return None
+
+
+def _resolve_doc_id(job_or_doc_id: str) -> str:
+    """Resolve a job_id to a real workspace doc_id (or return as-is)."""
+    if job_or_doc_id in _jobs:
+        job = _jobs[job_or_doc_id]
+        if job["status"] != "completed":
+            raise HTTPException(400, f"Document not ready yet (status: {job['status']})")
+        return job["real_doc_id"]
+    return job_or_doc_id
+
+
+@app.on_event("startup")
+async def startup():
+    _load_jobs()
+    _get_pi_client()  # eager init so first request isn't slow
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LLM helpers (Claude or OpenAI)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _call_llm(prompt: str) -> str:
+    if ANTHROPIC_API_KEY:
+        import anthropic
+        ac = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+        msg = ac.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return msg.content[0].text.strip()
+
+    if OPENAI_API_KEY:
+        import openai
+        oc = openai.OpenAI(api_key=OPENAI_API_KEY)
+        resp = oc.chat.completions.create(
+            model="gpt-4.1",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0,
+        )
+        return resp.choices[0].message.content.strip()
+
+    raise HTTPException(
+        status_code=500,
+        detail="ANTHROPIC_API_KEY or OPENAI_API_KEY required in .env"
+    )
 
 
 def _strip_tree_text(obj):
@@ -91,88 +195,136 @@ Context:
 Answer:"""
 
 
-def _call_llm(prompt: str) -> str:
-    if ANTHROPIC_API_KEY:
-        import anthropic
-        client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-        msg = client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=4096,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        return msg.content[0].text.strip()
+# ─────────────────────────────────────────────────────────────────────────────
+# Background indexing task
+# ─────────────────────────────────────────────────────────────────────────────
 
-    if OPENAI_API_KEY:
-        import openai
-        client = openai.OpenAI(api_key=OPENAI_API_KEY)
-        resp = client.chat.completions.create(
-            model="gpt-4.1",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0,
-        )
-        return resp.choices[0].message.content.strip()
+def _run_index(job_id: str, file_path: str, filename: str):
+    """Synchronous indexing — called in a thread pool via BackgroundTasks."""
+    try:
+        existing = _find_existing_doc(file_path)
+        if existing:
+            pi = _get_pi_client()
+            doc = pi.documents.get(existing, {})
+            _jobs[job_id] = {
+                "status": "completed",
+                "real_doc_id": existing,
+                "name": filename,
+                "page_count": doc.get("page_count"),
+            }
+            _save_jobs()
+            return
 
-    raise HTTPException(
-        status_code=500,
-        detail="Manual mode requires ANTHROPIC_API_KEY or OPENAI_API_KEY in .env"
-    )
+        pi = _get_pi_client()
+        real_doc_id = pi.index(file_path)
+        doc_info = json.loads(pi.get_document(real_doc_id))
+        _jobs[job_id] = {
+            "status": "completed",
+            "real_doc_id": real_doc_id,
+            "name": filename,
+            "page_count": doc_info.get("page_count"),
+        }
+        _save_jobs()
+    except Exception as e:
+        _jobs[job_id] = {
+            "status": "failed",
+            "real_doc_id": None,
+            "name": filename,
+            "page_count": None,
+            "error": str(e),
+        }
+        _save_jobs()
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# API endpoints
+# ─────────────────────────────────────────────────────────────────────────────
 
 @app.post("/api/upload")
-async def upload_document(file: UploadFile = File(...)):
+async def upload_document(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are supported")
 
-    client = _pi_client()
+    # Save uploaded file permanently so indexing can reference it
+    uploads = Path(UPLOADS_DIR)
+    uploads.mkdir(parents=True, exist_ok=True)
+    dest = uploads / file.filename
+    content = await file.read()
+    dest.write_bytes(content)
 
-    # Save to a temp file, upload, then clean up
-    suffix = Path(file.filename).suffix
-    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
-        tmp_path = tmp.name
-        content = await file.read()
-        tmp.write(content)
+    job_id = str(uuid.uuid4())
+    _jobs[job_id] = {"status": "processing", "real_doc_id": None, "name": file.filename, "page_count": None}
+    _save_jobs()
 
-    try:
-        result = client.submit_document(tmp_path)
-        doc_id = result["doc_id"]
-    finally:
-        os.unlink(tmp_path)
+    background_tasks.add_task(_run_index, job_id, str(dest), file.filename)
+    return {"doc_id": job_id, "name": file.filename}
 
-    return {"doc_id": doc_id, "name": file.filename}
 
 @app.get("/api/status/{doc_id}")
 async def get_status(doc_id: str):
-    client = _pi_client()
-    try:
-        doc = client.get_document(doc_id)
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
+    # Check jobs tracking first
+    if doc_id in _jobs:
+        job = _jobs[doc_id]
+        return {
+            "doc_id": doc_id,
+            "status": job["status"],
+            "pageNum": job.get("page_count"),
+            "name": job.get("name", ""),
+        }
 
-    return {
-        "doc_id": doc_id,
-        "status": doc.get("status", "unknown"),
-        "pageNum": doc.get("pageNum"),
-        "name": doc.get("name", ""),
-    }
+    # Fall back to workspace (pre-existing indexed doc used directly)
+    pi = _get_pi_client()
+    doc = pi.documents.get(doc_id)
+    if doc:
+        return {
+            "doc_id": doc_id,
+            "status": "completed",
+            "pageNum": doc.get("page_count"),
+            "name": doc.get("doc_name", ""),
+        }
+
+    raise HTTPException(status_code=404, detail=f"Document {doc_id} not found")
 
 
 @app.get("/api/documents")
 async def list_documents(limit: int = 20):
-    """List all uploaded documents."""
-    client = _pi_client()
-    result = client.list_documents(limit=limit)
-    docs = result.get("data") or result.get("documents") or []
-    return {"documents": docs, "total": result.get("total", len(docs))}
+    """List all indexed documents."""
+    docs = []
+    seen_real_ids = set()
 
+    # Documents tracked by jobs (include all statuses)
+    for job_id, job in _jobs.items():
+        docs.append({
+            "id": job_id,
+            "status": job["status"],
+            "name": job.get("name", ""),
+            "pageNum": job.get("page_count"),
+        })
+        if job.get("real_doc_id"):
+            seen_real_ids.add(job["real_doc_id"])
+
+    # Pre-existing workspace docs not tracked by any job
+    pi = _get_pi_client()
+    for doc_id, doc in pi.documents.items():
+        if doc_id not in seen_real_ids:
+            docs.append({
+                "id": doc_id,
+                "status": "completed",
+                "name": doc.get("doc_name", ""),
+                "pageNum": doc.get("page_count"),
+            })
+
+    docs = docs[:limit]
+    return {"documents": docs, "total": len(docs)}
 
 
 @app.get("/api/tree/{doc_id}")
 async def get_tree(doc_id: str):
     """Fetch the hierarchical tree index for a document."""
-    client = _pi_client()
+    real_doc_id = _resolve_doc_id(doc_id)
+    pi = _get_pi_client()
     try:
-        result = client.get_tree(doc_id, node_summary=True)
-        tree = result["result"]
+        tree = json.loads(pi.get_document_structure(real_doc_id))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     return {"tree": tree}
@@ -184,89 +336,52 @@ async def get_tree(doc_id: str):
 
 class ChatRequest(BaseModel):
     doc_id: str
-    messages: list[dict]          # [{role, content}, ...]
-    mode: str = "auto"            # "auto" | "manual"
-    cite: bool = False            # auto mode: include citations
+    messages: list[dict]    # [{role, content}, ...]
+    mode: str = "auto"      # "auto" | "manual"
+    cite: bool = False      # kept for API compatibility; unused in local mode
 
 
-async def _auto_stream(doc_id: str, messages: list, cite: bool) -> AsyncGenerator[str, None]:
-    """Stream chunks from PageIndex chat_completions."""
-    client = _pi_client()
+async def _rag_stream(real_doc_id: str, messages: list, mode: str) -> AsyncGenerator[str, None]:
+    """Local RAG pipeline as SSE stream."""
+    pi = _get_pi_client()
     loop = asyncio.get_event_loop()
+    question = messages[-1]["content"] if messages else ""
 
-    def _run_sync():
-        chunks = []
-        for chunk in client.chat_completions(
-            messages=messages,
-            doc_id=doc_id,
-            stream=True,
-            enable_citations=cite,
-        ):
-            # SDK yields plain strings when streaming
-            if isinstance(chunk, str):
-                text = chunk
-            elif isinstance(chunk, dict):
-                delta = chunk.get("choices", [{}])[0].get("delta", {})
-                text = delta.get("content") or ""
-            else:
-                text = ""
-            if text:
-                chunks.append(text)
-        return chunks
-
-    # Run sync SDK in a thread so we don't block the event loop
-    chunks = await loop.run_in_executor(None, _run_sync)
-    for text in chunks:
-        yield f"data: {json.dumps({'text': text})}\n\n"
-    yield "data: [DONE]\n\n"
-
-
-async def _manual_stream(doc_id: str, messages: list) -> AsyncGenerator[str, None]:
-    """
-    Manual mode: fetch tree, use LLM to pick nodes, stream answer token-by-token.
-    Yields reasoning first, then the answer.
-    """
-    client = _pi_client()
-    loop = asyncio.get_event_loop()
-
-    # Fetch tree
+    # 1. Fetch document structure (tree without page text)
     try:
-        result = await loop.run_in_executor(
-            None, lambda: client.get_tree(doc_id, node_summary=True)
-        )
-        tree = result["result"]
+        raw = await loop.run_in_executor(None, lambda: pi.get_document_structure(real_doc_id))
+        tree = json.loads(raw)
     except Exception as e:
         yield f"data: {json.dumps({'error': str(e)})}\n\n"
         yield "data: [DONE]\n\n"
         return
 
-    question = messages[-1]["content"] if messages else ""
     node_map = _build_node_map(tree)
     compact = _strip_tree_text(tree)
 
-    # Step 1 — reasoning-based retrieval
-    raw = await loop.run_in_executor(
-        None,
-        lambda: _call_llm(RETRIEVE_PROMPT.format(
-            query=question,
-            tree_json=json.dumps(compact, indent=2),
+    # 2. LLM reasoning-based retrieval
+    try:
+        raw_retrieval = await loop.run_in_executor(None, lambda: _call_llm(
+            RETRIEVE_PROMPT.format(query=question, tree_json=json.dumps(compact, indent=2))
         ))
-    )
+    except Exception as e:
+        yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        yield "data: [DONE]\n\n"
+        return
 
-    # Strip accidental markdown fences
-    if raw.startswith("```"):
-        raw = raw.split("```")[1].lstrip("json").strip()
+    if raw_retrieval.startswith("```"):
+        raw_retrieval = raw_retrieval.split("```")[1].lstrip("json").strip()
 
     try:
-        retrieval = json.loads(raw)
+        retrieval = json.loads(raw_retrieval)
     except json.JSONDecodeError:
-        retrieval = {"thinking": raw, "node_list": []}
+        retrieval = {"thinking": raw_retrieval, "node_list": []}
 
     thinking = retrieval.get("thinking", "")
     node_ids = retrieval.get("node_list", [])
 
-    # Send reasoning trace
-    if thinking:
+    # Stream reasoning trace (manual mode)
+    if mode == "manual" and thinking:
         yield f"data: {json.dumps({'reasoning': thinking})}\n\n"
 
     if not node_ids:
@@ -274,35 +389,51 @@ async def _manual_stream(doc_id: str, messages: list) -> AsyncGenerator[str, Non
         yield "data: [DONE]\n\n"
         return
 
-    # Send retrieved sections metadata
+    # 3. Retrieve page content for each relevant node
     sections = []
     context_parts: list[str] = []
     for nid in node_ids:
         node = node_map.get(nid)
-        if node is None:
+        if not node:
             continue
-        page = (node.get("page_index")
-                or f"{node.get('start_index','?')}–{node.get('end_index','?')}")
+        start = node.get("start_index", "?")
+        end = node.get("end_index", "?")
+        page = f"{start}–{end}" if start != "?" else "?"
         sections.append({"node_id": nid, "title": node.get("title", ""), "page": page})
-        if "text" in node:
-            context_parts.append(node["text"])
+        if start != "?" and end != "?":
+            try:
+                s, e = start, end  # capture for lambda
+                raw_content = await loop.run_in_executor(
+                    None, lambda s=s, e=e: pi.get_page_content(real_doc_id, f"{s}-{e}")
+                )
+                pages = json.loads(raw_content)
+                text = "\n".join(p["content"] for p in pages if p.get("content"))
+                if text:
+                    context_parts.append(text)
+            except Exception:
+                pass
 
-    if sections:
+    # Stream section metadata (manual mode)
+    if mode == "manual" and sections:
         yield f"data: {json.dumps({'sections': sections})}\n\n"
 
     if not context_parts:
-        yield f"data: {json.dumps({'text': 'Retrieved node summaries only — no full text available.'})}\n\n"
+        yield f"data: {json.dumps({'text': 'Retrieved sections have no page content available.'})}\n\n"
         yield "data: [DONE]\n\n"
         return
 
-    # Step 2 — generate answer
+    # 4. Generate answer
     context = "\n\n---\n\n".join(context_parts)
-    answer = await loop.run_in_executor(
-        None,
-        lambda: _call_llm(ANSWER_PROMPT.format(query=question, context=context))
-    )
+    try:
+        answer = await loop.run_in_executor(None, lambda: _call_llm(
+            ANSWER_PROMPT.format(query=question, context=context)
+        ))
+    except Exception as e:
+        yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        yield "data: [DONE]\n\n"
+        return
 
-    # Stream answer word by word for a nicer UX
+    # 5. Stream answer word by word for smooth UX
     words = answer.split(" ")
     for i, word in enumerate(words):
         text = word if i == len(words) - 1 else word + " "
@@ -315,13 +446,9 @@ async def _manual_stream(doc_id: str, messages: list) -> AsyncGenerator[str, Non
 @app.post("/api/chat")
 async def chat(req: ChatRequest):
     """SSE endpoint — streams answer chunks as JSON events."""
-    if req.mode == "auto":
-        generator = _auto_stream(req.doc_id, req.messages, req.cite)
-    else:
-        generator = _manual_stream(req.doc_id, req.messages)
-
+    real_doc_id = _resolve_doc_id(req.doc_id)
     return StreamingResponse(
-        generator,
+        _rag_stream(real_doc_id, req.messages, req.mode),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
