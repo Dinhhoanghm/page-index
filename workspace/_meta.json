@@ -11,5 +11,12 @@
     "doc_name": "",
     "doc_description": "",
     "path": ""
+  },
+  "13379236-c79c-493c-8309-e84de2439ef2": {
+    "type": "pdf",
+    "doc_name": "data.pdf",
+    "doc_description": "This document provides a comprehensive overview of the Health Service Procurement (Wales) Act 2024, detailing its amendments to existing procurement legislation, the powers granted to Welsh Ministers, and the framework for enhancing transparency and fairness in the procurement of health services in Wales.",
+    "path": "/app/uploads/data.pdf",
+    "page_count": 4
   }
 }

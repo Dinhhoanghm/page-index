@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 
-const API = 'http://localhost:8000'
+const API = import.meta.env.VITE_API_URL ?? ''
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const s = {
@@ -144,7 +144,10 @@ function Message({ msg }) {
       {msg.sections && msg.sections.length > 0 && (
         <div style={s.sections}>
           {msg.sections.map((sec, i) => (
-            <span key={i} style={s.sectionBadge}>{sec.title || sec.node_id} · p.{sec.page}</span>
+            <span key={i} style={s.sectionBadge}>
+              {sec.doc && <span style={{ color: '#818cf8' }}>[{sec.doc}] </span>}
+              {sec.title || sec.node_id} · p.{sec.page}
+            </span>
           ))}
         </div>
       )}
@@ -164,101 +167,91 @@ function Message({ msg }) {
 // ─── Upload Panel ─────────────────────────────────────────────────────────────
 function UploadPanel({ onDocReady }) {
   const [dragging, setDragging] = useState(false)
-  const [uploadState, setUploadState] = useState(null) // {name, docId, status, progress}
+  const [uploads, setUploads] = useState([]) // [{uid, name, docId, status, progress, pageNum}]
   const fileRef = useRef()
-  const pollRef = useRef()
 
-  const startUpload = useCallback(async (file) => {
-    if (!file || !file.name.endsWith('.pdf')) {
-      alert('Please select a PDF file.')
-      return
-    }
+  const patch = useCallback((uid, update) =>
+    setUploads(prev => prev.map(u => u.uid === uid ? { ...u, ...update } : u)), [])
 
-    setUploadState({ name: file.name, docId: null, status: 'uploading', progress: 10 })
+  const startUpload = useCallback(async (files) => {
+    const pdfs = Array.from(files).filter(f => f.name.toLowerCase().endsWith('.pdf'))
+    if (!pdfs.length) { alert('Please select PDF file(s).'); return }
 
-    try {
-      const form = new FormData()
-      form.append('file', file)
-      const res = await fetch(`${API}/api/upload`, { method: 'POST', body: form })
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.detail || 'Upload failed')
+    pdfs.forEach(async (file) => {
+      const uid = Math.random().toString(36).slice(2)
+      setUploads(prev => [...prev, { uid, name: file.name, docId: null, status: 'uploading', progress: 10 }])
+
+      try {
+        const form = new FormData()
+        form.append('file', file)
+        const res = await fetch(`${API}/api/upload`, { method: 'POST', body: form })
+        if (!res.ok) throw new Error((await res.json()).detail || 'Upload failed')
+        const { doc_id } = await res.json()
+
+        patch(uid, { docId: doc_id, status: 'processing', progress: 30 })
+
+        const poll = setInterval(async () => {
+          try {
+            const data = await fetch(`${API}/api/status/${doc_id}`).then(r => r.json())
+            const pct = data.status === 'completed' ? 100 : Math.min(90, (Date.now() % 60000) / 600 + 30)
+            patch(uid, { status: data.status, progress: pct, pageNum: data.pageNum })
+            if (data.status === 'completed' || data.status === 'failed') {
+              clearInterval(poll)
+              if (data.status === 'completed') onDocReady({ docId: doc_id, name: file.name, pageNum: data.pageNum })
+            }
+          } catch { /* ignore poll errors */ }
+        }, 2000)
+      } catch (err) {
+        patch(uid, { status: 'failed' })
+        alert(`${file.name}: ${err.message}`)
       }
-      const { doc_id } = await res.json()
-
-      setUploadState(prev => ({ ...prev, docId: doc_id, status: 'processing', progress: 30 }))
-
-      // Poll until completed
-      clearInterval(pollRef.current)
-      pollRef.current = setInterval(async () => {
-        try {
-          const sr = await fetch(`${API}/api/status/${doc_id}`)
-          const data = await sr.json()
-          const pct = data.status === 'completed' ? 100 : Math.min(90, (Date.now() % 60000) / 600 + 30)
-          setUploadState(prev => ({ ...prev, status: data.status, progress: pct, pageNum: data.pageNum }))
-
-          if (data.status === 'completed') {
-            clearInterval(pollRef.current)
-            onDocReady({ docId: doc_id, name: file.name, pageNum: data.pageNum })
-          }
-          if (data.status === 'failed') {
-            clearInterval(pollRef.current)
-          }
-        } catch { /* ignore poll errors */ }
-      }, 2000)
-    } catch (err) {
-      setUploadState(prev => ({ ...prev, status: 'failed' }))
-      alert(err.message)
-    }
-  }, [onDocReady])
-
-  useEffect(() => () => clearInterval(pollRef.current), [])
+    })
+  }, [patch, onDocReady])
 
   const onDrop = useCallback((e) => {
     e.preventDefault(); setDragging(false)
-    const file = e.dataTransfer.files[0]
-    if (file) startUpload(file)
+    startUpload(e.dataTransfer.files)
   }, [startUpload])
 
   return (
     <div>
-      <div style={s.sectionLabel}>Upload PDF</div>
+      <div style={s.sectionLabel}>Upload PDFs</div>
 
       <div
         style={s.uploadArea(dragging)}
-        onClick={() => !uploadState && fileRef.current?.click()}
+        onClick={() => fileRef.current?.click()}
         onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
       >
         <div style={s.uploadIcon}>📄</div>
-        <div style={s.uploadLabel}>Drop PDF here</div>
-        <div style={s.uploadHint}>or click to browse</div>
+        <div style={s.uploadLabel}>Drop PDFs here</div>
+        <div style={s.uploadHint}>or click to browse (multiple OK)</div>
         <input
-          ref={fileRef} type="file" accept=".pdf" style={{ display: 'none' }}
-          onChange={(e) => startUpload(e.target.files[0])}
+          ref={fileRef} type="file" accept=".pdf" multiple style={{ display: 'none' }}
+          onChange={(e) => startUpload(e.target.files)}
         />
       </div>
 
-      {uploadState && (
-        <div style={{ ...s.progressWrap, marginTop: 10 }}>
+      {uploads.map(u => (
+        <div key={u.uid} style={{ ...s.progressWrap, marginTop: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-            <span style={{ fontSize: 13, color: '#94a3b8', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {uploadState.name}
+            <span style={{ fontSize: 12, color: '#94a3b8', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {u.name}
             </span>
-            <span style={{ fontSize: 12, display: 'flex', alignItems: 'center' }}>
-              <span style={s.statusDot(statusColor(uploadState.status))} />
-              {uploadState.status}
+            <span style={{ fontSize: 11, display: 'flex', alignItems: 'center' }}>
+              <span style={s.statusDot(statusColor(u.status))} />
+              {u.status}
             </span>
           </div>
           <div style={s.progressBg}>
-            <div style={s.progressBar(uploadState.progress)} />
+            <div style={s.progressBar(u.progress)} />
           </div>
-          {uploadState.pageNum && (
-            <div style={{ fontSize: 11, color: '#64748b', marginTop: 6 }}>{uploadState.pageNum} pages</div>
+          {u.pageNum && (
+            <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>{u.pageNum} pages</div>
           )}
         </div>
-      )}
+      ))}
     </div>
   )
 }
@@ -274,7 +267,8 @@ function DocSelector({ currentDocId, onSelect }) {
       .catch(() => {})
   }, [currentDocId]) // refresh when a new doc is uploaded
 
-  if (!docs.length) return null
+  const completed = docs.filter(d => d.status === 'completed')
+  if (!completed.length) return null
 
   return (
     <div>
@@ -283,12 +277,20 @@ function DocSelector({ currentDocId, onSelect }) {
         style={s.select}
         value={currentDocId || ''}
         onChange={(e) => {
-          const doc = docs.find(d => d.id === e.target.value)
+          const val = e.target.value
+          if (val === '__all__') {
+            onSelect({ docId: '__all__', name: `All Documents (${completed.length})`, pageNum: null })
+            return
+          }
+          const doc = completed.find(d => d.id === val)
           if (doc) onSelect({ docId: doc.id, name: doc.name, pageNum: doc.pageNum })
         }}
       >
         <option value="">— select —</option>
-        {docs.filter(d => d.status === 'completed').map(d => (
+        {completed.length > 1 && (
+          <option value="__all__">All Documents ({completed.length})</option>
+        )}
+        {completed.map(d => (
           <option key={d.id} value={d.id}>{d.name || d.id}</option>
         ))}
       </select>

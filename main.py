@@ -30,7 +30,7 @@ from dotenv import load_dotenv
 # Use the local open-source PageIndex library
 sys.path.insert(0, str(Path(__file__).parent / "PageIndex"))
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY")
