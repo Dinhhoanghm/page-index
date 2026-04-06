@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
       network: host
     env_file: .env
+    ports:
+      - "8000:8000"
     volumes:
       - ./workspace:/app/workspace
       - ./uploads:/app/uploads

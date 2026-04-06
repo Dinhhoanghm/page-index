@@ -26,10 +26,13 @@ sys.path.insert(0, str(Path(__file__).parent / "PageIndex"))
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
-OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY")
-WORKSPACE_DIR     = os.getenv("WORKSPACE_DIR", "./workspace")
-UPLOADS_DIR       = os.getenv("UPLOADS_DIR", "./uploads")
+ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
+OPENAI_API_KEY     = os.getenv("OPENAI_API_KEY")
+WORKSPACE_DIR      = os.getenv("WORKSPACE_DIR", "./workspace")
+UPLOADS_DIR        = os.getenv("UPLOADS_DIR", "./uploads")
+FOLDER_INDEX_PATH  = os.getenv("FOLDER_INDEX_PATH", "").strip()
+
+SUPPORTED_EXTENSIONS = {".pdf", ".md", ".markdown"}
 
 app = FastAPI(title="PageIndex RAG API")
 
@@ -103,10 +106,106 @@ def _resolve_doc_id(job_or_doc_id: str) -> str:
     return job_or_doc_id
 
 
+def _delete_workspace_doc(pi, doc_id: str) -> bool:
+    """Remove a document from the PageIndex client and delete its workspace JSON + meta entry."""
+    if doc_id not in pi.documents:
+        return False
+    del pi.documents[doc_id]
+    ws = Path(pi.workspace) if getattr(pi, "workspace", None) else None
+    if not ws:
+        return True
+    json_path = ws / f"{doc_id}.json"
+    if json_path.exists():
+        try:
+            json_path.unlink()
+        except OSError:
+            pass
+    meta_path = ws / "_meta.json"
+    if meta_path.exists():
+        try:
+            with open(meta_path, encoding="utf-8") as f:
+                meta = json.load(f)
+            if isinstance(meta, dict) and doc_id in meta:
+                del meta[doc_id]
+                with open(meta_path, "w", encoding="utf-8") as f:
+                    json.dump(meta, f, ensure_ascii=False, indent=2)
+        except (OSError, json.JSONDecodeError):
+            pass
+    return True
+
+
+def _remove_jobs_pointing_to(real_doc_id: str) -> None:
+    """Drop job rows whose indexed document matches real_doc_id."""
+    global _jobs
+    to_del = [jid for jid, j in _jobs.items() if j.get("real_doc_id") == real_doc_id]
+    for jid in to_del:
+        _jobs.pop(jid, None)
+    if to_del:
+        _save_jobs()
+
+
+def _scan_folder_and_index(folder: str) -> None:
+    """Walk FOLDER_INDEX_PATH and index any supported file not already indexed."""
+    root = Path(folder).expanduser().resolve()
+    if not root.is_dir():
+        print(f"[folder-index] WARNING: FOLDER_INDEX_PATH={folder!r} is not a directory — skipping.")
+        return
+
+    files = [
+        p for p in root.rglob("*")
+        if p.is_file() and p.suffix.lower() in SUPPORTED_EXTENSIONS
+    ]
+    if not files:
+        print(f"[folder-index] No supported files found in {root}")
+        return
+
+    print(f"[folder-index] Found {len(files)} file(s) in {root} — indexing…")
+    pi = _get_pi_client()
+
+    for file_path in files:
+        abs_path = str(file_path)
+        filename = file_path.name
+
+        # Already indexed?
+        existing_doc_id = _find_existing_doc(abs_path)
+        if existing_doc_id:
+            already_in_jobs = any(
+                j.get("real_doc_id") == existing_doc_id for j in _jobs.values()
+            )
+            if not already_in_jobs:
+                job_id = str(uuid.uuid4())
+                doc = pi.documents.get(existing_doc_id, {})
+                _jobs[job_id] = {
+                    "status": "completed",
+                    "real_doc_id": existing_doc_id,
+                    "name": filename,
+                    "page_count": doc.get("page_count"),
+                    "source": "folder",
+                }
+                _save_jobs()
+            print(f"[folder-index] Already indexed: {filename}")
+            continue
+
+        job_id = str(uuid.uuid4())
+        _jobs[job_id] = {
+            "status": "processing",
+            "real_doc_id": None,
+            "name": filename,
+            "page_count": None,
+            "source": "folder",
+        }
+        _save_jobs()
+        print(f"[folder-index] Indexing: {filename}")
+        _run_index(job_id, abs_path, filename)
+
+
 @app.on_event("startup")
 async def startup():
     _load_jobs()
     _get_pi_client()  # eager init so first request isn't slow
+    if FOLDER_INDEX_PATH:
+        loop = asyncio.get_event_loop()
+        loop.run_in_executor(None, _scan_folder_and_index, FOLDER_INDEX_PATH)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -206,6 +305,8 @@ def _run_index(job_id: str, file_path: str, filename: str):
         if existing:
             pi = _get_pi_client()
             doc = pi.documents.get(existing, {})
+            if job_id not in _jobs:
+                return
             _jobs[job_id] = {
                 "status": "completed",
                 "real_doc_id": existing,
@@ -218,6 +319,11 @@ def _run_index(job_id: str, file_path: str, filename: str):
         pi = _get_pi_client()
         real_doc_id = pi.index(file_path)
         doc_info = json.loads(pi.get_document(real_doc_id))
+        if job_id not in _jobs:
+            # Upload was cancelled while indexing — drop orphan index
+            if real_doc_id in pi.documents:
+                _delete_workspace_doc(pi, real_doc_id)
+            return
         _jobs[job_id] = {
             "status": "completed",
             "real_doc_id": real_doc_id,
@@ -226,6 +332,8 @@ def _run_index(job_id: str, file_path: str, filename: str):
         }
         _save_jobs()
     except Exception as e:
+        if job_id not in _jobs:
+            return
         _jobs[job_id] = {
             "status": "failed",
             "real_doc_id": None,
@@ -299,6 +407,7 @@ async def list_documents(limit: int = 20):
             "status": job["status"],
             "name": job.get("name", ""),
             "pageNum": job.get("page_count"),
+            "source": job.get("source", "upload"),
         })
         if job.get("real_doc_id"):
             seen_real_ids.add(job["real_doc_id"])
@@ -312,10 +421,40 @@ async def list_documents(limit: int = 20):
                 "status": "completed",
                 "name": doc.get("doc_name", ""),
                 "pageNum": doc.get("page_count"),
+                "source": "workspace",
             })
 
     docs = docs[:limit]
     return {"documents": docs, "total": len(docs)}
+
+
+@app.delete("/api/documents/{doc_id}")
+async def delete_document(doc_id: str):
+    """Remove a job entry and/or the indexed workspace document (matches Civenta proxy DELETE)."""
+    pi = _get_pi_client()
+
+    if doc_id in _jobs:
+        job = _jobs.pop(doc_id)
+        _save_jobs()
+        rid = job.get("real_doc_id")
+        if rid and rid in pi.documents:
+            _delete_workspace_doc(pi, rid)
+        fname = job.get("name")
+        if fname:
+            dest = Path(UPLOADS_DIR) / fname
+            if dest.exists():
+                try:
+                    dest.unlink()
+                except OSError:
+                    pass
+        return {"ok": True, "deleted": doc_id}
+
+    if doc_id in pi.documents:
+        _remove_jobs_pointing_to(doc_id)
+        _delete_workspace_doc(pi, doc_id)
+        return {"ok": True, "deleted": doc_id}
+
+    raise HTTPException(status_code=404, detail="Document not found")
 
 
 @app.get("/api/tree/{doc_id}")

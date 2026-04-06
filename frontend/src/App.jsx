@@ -256,17 +256,64 @@ function UploadPanel({ onDocReady }) {
   )
 }
 
-// ─── Document Selector ────────────────────────────────────────────────────────
-function DocSelector({ currentDocId, onSelect }) {
+// ─── Shared document polling hook ─────────────────────────────────────────────
+function useDocuments(refreshKey) {
   const [docs, setDocs] = useState([])
 
-  useEffect(() => {
-    fetch(`${API}/api/documents`)
+  const fetchDocs = useCallback(() => {
+    fetch(`${API}/api/documents?limit=200`)
       .then(r => r.json())
       .then(d => setDocs(d.documents || []))
       .catch(() => {})
-  }, [currentDocId]) // refresh when a new doc is uploaded
+  }, [])
 
+  // Fetch on mount and whenever refreshKey changes
+  useEffect(() => { fetchDocs() }, [fetchDocs, refreshKey])
+
+  // Poll every 3 s while any doc is still processing
+  useEffect(() => {
+    const hasProcessing = docs.some(d => d.status === 'processing')
+    if (!hasProcessing) return
+    const id = setInterval(fetchDocs, 3000)
+    return () => clearInterval(id)
+  }, [docs, fetchDocs])
+
+  return docs
+}
+
+// ─── Indexing Progress Panel ───────────────────────────────────────────────────
+function IndexingProgress({ docs }) {
+  const active = docs.filter(d => d.status === 'processing' || d.status === 'failed')
+  if (!active.length) return null
+
+  return (
+    <div>
+      <div style={s.sectionLabel}>Indexing Progress</div>
+      {active.map(d => (
+        <div key={d.id} style={{ ...s.progressWrap, marginTop: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 12, color: '#94a3b8', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={d.name}>
+              {d.source === 'folder' ? '📁 ' : '📄 '}{d.name || d.id}
+            </span>
+            <span style={{ fontSize: 11, display: 'flex', alignItems: 'center' }}>
+              <span style={s.statusDot(statusColor(d.status))} />
+              {d.status}
+            </span>
+          </div>
+          {d.status === 'processing' && (
+            <div style={s.progressBg}>
+              <div style={{ ...s.progressBar(100), animation: 'pulse 1.5s ease-in-out infinite', background: '#818cf8' }} />
+            </div>
+          )}
+        </div>
+      ))}
+      <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }`}</style>
+    </div>
+  )
+}
+
+// ─── Document Selector ────────────────────────────────────────────────────────
+function DocSelector({ currentDocId, onSelect, docs }) {
   const completed = docs.filter(d => d.status === 'completed')
   if (!completed.length) return null
 
@@ -306,8 +353,11 @@ export default function App() {
   const [messages, setMessages] = useState([])
   const [draft, setDraft] = useState('')
   const [streaming, setStreaming] = useState(false)
+  const [docsRefreshKey, setDocsRefreshKey] = useState(0)
   const bottomRef = useRef()
   const textareaRef = useRef()
+
+  const allDocs = useDocuments(docsRefreshKey)
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -318,6 +368,7 @@ export default function App() {
   const handleDocReady = useCallback((newDoc) => {
     setDoc(newDoc)
     setMessages([])
+    setDocsRefreshKey(k => k + 1)
   }, [])
 
   const sendMessage = useCallback(async () => {
@@ -459,8 +510,11 @@ export default function App() {
 
         <div style={s.divider} />
 
+        {/* Folder indexing progress */}
+        <IndexingProgress docs={allDocs} />
+
         {/* Doc selector */}
-        <DocSelector currentDocId={doc?.docId} onSelect={handleDocReady} />
+        <DocSelector currentDocId={doc?.docId} onSelect={handleDocReady} docs={allDocs} />
       </aside>
 
       {/* ── Main area ── */}
