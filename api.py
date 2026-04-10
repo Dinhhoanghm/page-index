@@ -15,6 +15,7 @@ import asyncio
 from pathlib import Path
 from typing import AsyncGenerator
 
+import httpx
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -31,6 +32,9 @@ OPENAI_API_KEY     = os.getenv("OPENAI_API_KEY")
 WORKSPACE_DIR      = os.getenv("WORKSPACE_DIR", "./workspace")
 UPLOADS_DIR        = os.getenv("UPLOADS_DIR", "./uploads")
 FOLDER_INDEX_PATH  = os.getenv("FOLDER_INDEX_PATH", "").strip()
+# Set to the RAG backend base URL (e.g. http://rag-backend:8080) to enable
+# hybrid retrieval. If empty, the app falls back to PageIndex-only mode.
+RAG_BACKEND_URL    = os.getenv("RAG_BACKEND_URL", "").rstrip("/")
 
 SUPPORTED_EXTENSIONS = {".pdf", ".md", ".markdown"}
 
@@ -209,6 +213,62 @@ async def startup():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# RAG backend helpers (hybrid retrieval)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _get_doc_name_by_real_id(real_doc_id: str) -> str | None:
+    """Return the original filename for a given PageIndex real_doc_id."""
+    for job in _jobs.values():
+        if job.get("real_doc_id") == real_doc_id:
+            return job.get("name")
+    # Fall back to workspace metadata
+    pi = _get_pi_client()
+    doc = pi.documents.get(real_doc_id, {})
+    return doc.get("doc_name")
+
+
+def _rag_index_document(file_path: str, doc_id: str) -> None:
+    """Send the PDF to the RAG backend for vector indexing (sync, runs in thread)."""
+    if not RAG_BACKEND_URL:
+        return
+    try:
+        with open(file_path, "rb") as f:
+            with httpx.Client(timeout=300) as client:
+                resp = client.post(
+                    f"{RAG_BACKEND_URL}/api/index",
+                    files={"file": (Path(file_path).name, f, "application/pdf")},
+                    data={"doc_id": doc_id},
+                )
+        if resp.status_code != 200:
+            print(f"[hybrid] RAG index failed ({resp.status_code}): {resp.text}")
+    except Exception as exc:
+        print(f"[hybrid] RAG index error: {exc}")
+
+
+def _rag_retrieve_chunks(query: str, doc_ids: list[str], top_k: int = 5) -> list[str]:
+    """
+    Call the RAG backend for BM25+vector retrieval (sync, runs in thread).
+    Returns a list of text strings ready to be appended to the context.
+    """
+    if not RAG_BACKEND_URL or not doc_ids:
+        return []
+    try:
+        with httpx.Client(timeout=60) as client:
+            resp = client.post(
+                f"{RAG_BACKEND_URL}/api/retrieve",
+                json={"query": query, "doc_ids": doc_ids, "top_k": top_k},
+            )
+        if resp.status_code != 200:
+            print(f"[hybrid] RAG retrieve failed ({resp.status_code}): {resp.text}")
+            return []
+        data = resp.json()
+        return [chunk["text"] for chunk in data.get("chunks", []) if chunk.get("text")]
+    except Exception as exc:
+        print(f"[hybrid] RAG retrieve error: {exc}")
+        return []
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # LLM helpers (Claude or OpenAI)
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -333,6 +393,9 @@ def _run_index(job_id: str, file_path: str, filename: str, user_id: str = ""):
             "user_id": user_id,
         }
         _save_jobs()
+
+        # Also index in RAG backend for hybrid retrieval (non-blocking: failure is OK)
+        _rag_index_document(file_path, filename)
     except Exception as e:
         if job_id not in _jobs:
             return
@@ -555,7 +618,15 @@ async def _rag_stream(real_doc_id: str, messages: list, mode: str) -> AsyncGener
         yield "data: [DONE]\n\n"
         return
 
-    # 3. Retrieve page content for each relevant node
+    # 3. Retrieve page content for each relevant node.
+    #    Concurrently kick off RAG backend retrieval so both run in parallel.
+    doc_name = _get_doc_name_by_real_id(real_doc_id)
+    rag_future = (
+        loop.run_in_executor(None, lambda: _rag_retrieve_chunks(question, [doc_name]))
+        if RAG_BACKEND_URL and doc_name
+        else None
+    )
+
     sections = []
     context_parts: list[str] = []
     for nid in node_ids:
@@ -578,6 +649,14 @@ async def _rag_stream(real_doc_id: str, messages: list, mode: str) -> AsyncGener
                     context_parts.append(text)
             except Exception:
                 pass
+
+    # Merge RAG chunks: add any chunk not already covered by PageIndex content
+    if rag_future is not None:
+        rag_chunks = await rag_future
+        pageindex_combined = "\n".join(context_parts)
+        for chunk in rag_chunks:
+            if chunk[:80] not in pageindex_combined:
+                context_parts.append(f"[Vector Search]\n{chunk}")
 
     # Stream section metadata (manual mode)
     if mode == "manual" and sections:
@@ -666,7 +745,19 @@ async def _rag_stream_multi(real_doc_ids: list[str], messages: list, mode: str) 
 
     retrievals = await asyncio.gather(*[retrieve_from_doc(did, t) for did, t in trees.items()])
 
-    # 3. Collect page content from relevant nodes across all docs
+    # 3. Collect page content from relevant nodes across all docs.
+    #    Also kick off RAG retrieval for all doc names in parallel.
+    all_doc_names = [
+        pi.documents.get(doc_id, {}).get("doc_name", "")
+        for doc_id in trees
+        if pi.documents.get(doc_id, {}).get("doc_name")
+    ]
+    rag_multi_future = (
+        loop.run_in_executor(None, lambda: _rag_retrieve_chunks(question, all_doc_names))
+        if RAG_BACKEND_URL and all_doc_names
+        else None
+    )
+
     all_context_parts: list[str] = []
     all_sections: list[dict] = []
 
@@ -693,6 +784,14 @@ async def _rag_stream_multi(real_doc_ids: list[str], messages: list, mode: str) 
                         all_context_parts.append(f"[Source: {doc_name}]\n{text}")
                 except Exception:
                     pass
+
+    # Merge RAG chunks across all docs
+    if rag_multi_future is not None:
+        rag_chunks = await rag_multi_future
+        pageindex_combined = "\n".join(all_context_parts)
+        for chunk in rag_chunks:
+            if chunk[:80] not in pageindex_combined:
+                all_context_parts.append(f"[Vector Search]\n{chunk}")
 
     if mode == "manual" and all_sections:
         yield f"data: {json.dumps({'sections': all_sections})}\n\n"
