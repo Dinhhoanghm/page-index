@@ -358,7 +358,7 @@ Answer:"""
 # Background indexing task
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _run_index(job_id: str, file_path: str, filename: str, user_id: str = ""):
+def _run_index(job_id: str, file_path: str, filename: str):
     """Synchronous indexing — called in a thread pool via BackgroundTasks."""
     try:
         existing = _find_existing_doc(file_path)
@@ -372,7 +372,6 @@ def _run_index(job_id: str, file_path: str, filename: str, user_id: str = ""):
                 "real_doc_id": existing,
                 "name": filename,
                 "page_count": doc.get("page_count"),
-                "user_id": user_id,
             }
             _save_jobs()
             return
@@ -390,7 +389,6 @@ def _run_index(job_id: str, file_path: str, filename: str, user_id: str = ""):
             "real_doc_id": real_doc_id,
             "name": filename,
             "page_count": doc_info.get("page_count"),
-            "user_id": user_id,
         }
         _save_jobs()
 
@@ -405,7 +403,6 @@ def _run_index(job_id: str, file_path: str, filename: str, user_id: str = ""):
             "name": filename,
             "page_count": None,
             "error": str(e),
-            "user_id": user_id,
         }
         _save_jobs()
 
@@ -418,24 +415,21 @@ def _run_index(job_id: str, file_path: str, filename: str, user_id: str = ""):
 async def upload_document(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
-    user_id: str = Form(default=""),
 ):
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are supported")
 
-    # Save to a user-specific subdirectory to prevent filename collisions between users
     uploads = Path(UPLOADS_DIR)
-    user_dir = uploads / user_id if user_id else uploads
-    user_dir.mkdir(parents=True, exist_ok=True)
-    dest = user_dir / file.filename
+    uploads.mkdir(parents=True, exist_ok=True)
+    dest = uploads / file.filename
     content = await file.read()
     dest.write_bytes(content)
 
     job_id = str(uuid.uuid4())
-    _jobs[job_id] = {"status": "processing", "real_doc_id": None, "name": file.filename, "page_count": None, "user_id": user_id}
+    _jobs[job_id] = {"status": "processing", "real_doc_id": None, "name": file.filename, "page_count": None}
     _save_jobs()
 
-    background_tasks.add_task(_run_index, job_id, str(dest), file.filename, user_id)
+    background_tasks.add_task(_run_index, job_id, str(dest), file.filename)
     return {"doc_id": job_id, "name": file.filename}
 
 
@@ -466,15 +460,12 @@ async def get_status(doc_id: str):
 
 
 @app.get("/api/documents")
-async def list_documents(limit: int = 20, user_id: str = ""):
-    """List indexed documents, filtered by user_id when provided."""
+async def list_documents(limit: int = 20):
+    """List all indexed documents."""
     docs = []
     seen_real_ids = set()
 
-    # Documents tracked by jobs — filter by owner when user_id is given
     for job_id, job in _jobs.items():
-        if user_id and job.get("user_id", "") != user_id:
-            continue
         docs.append({
             "id": job_id,
             "status": job["status"],
@@ -485,17 +476,16 @@ async def list_documents(limit: int = 20, user_id: str = ""):
         if job.get("real_doc_id"):
             seen_real_ids.add(job["real_doc_id"])
 
-    # Pre-existing workspace docs with no job entry — only shown when no user filter
-    if not user_id:
-        pi = _get_pi_client()
-        for doc_id, doc in pi.documents.items():
-            if doc_id not in seen_real_ids:
-                docs.append({
-                    "id": doc_id,
-                    "status": "completed",
-                    "name": doc.get("doc_name", ""),
-                    "pageNum": doc.get("page_count"),
-                })
+    # Workspace docs with no job entry (e.g. indexed via FOLDER_INDEX_PATH)
+    pi = _get_pi_client()
+    for doc_id, doc in pi.documents.items():
+        if doc_id not in seen_real_ids:
+            docs.append({
+                "id": doc_id,
+                "status": "completed",
+                "name": doc.get("doc_name", ""),
+                "pageNum": doc.get("page_count"),
+            })
 
     docs = docs[:limit]
     return {"documents": docs, "total": len(docs)}
@@ -543,15 +533,10 @@ async def get_tree(doc_id: str):
 
 
 @app.delete("/api/documents/{doc_id}")
-async def delete_document(doc_id: str, user_id: str = ""):
-    """Remove a document job entry. Verifies ownership when user_id is provided."""
+async def delete_document(doc_id: str):
+    """Remove a document job entry."""
     if doc_id not in _jobs:
         raise HTTPException(status_code=404, detail=f"Document {doc_id} not found")
-
-    job = _jobs[doc_id]
-
-    if user_id and job.get("user_id", "") != user_id:
-        raise HTTPException(status_code=403, detail="Access denied")
 
     del _jobs[doc_id]
     _save_jobs()
@@ -567,7 +552,7 @@ class ChatRequest(BaseModel):
     messages: list[dict]    # [{role, content}, ...]
     mode: str = "auto"      # "auto" | "manual"
     cite: bool = False      # kept for API compatibility; unused in local mode
-    user_id: str = ""       # when set, restricts retrieval to this user's documents
+    user_id: str = ""       # kept for API compatibility; unused (admin-upload model)
 
 
 async def _rag_stream(real_doc_id: str, messages: list, mode: str) -> AsyncGenerator[str, None]:
@@ -692,19 +677,16 @@ async def _rag_stream(real_doc_id: str, messages: list, mode: str) -> AsyncGener
 # Multi-document RAG
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _get_all_real_doc_ids(user_id: str = "") -> list[str]:
-    """Return real doc_ids that are fully indexed, filtered by user_id when provided."""
+def _get_all_real_doc_ids() -> list[str]:
+    """Return all fully indexed real doc_ids."""
     ids: dict = {}
     for job in _jobs.values():
-        if user_id and job.get("user_id", "") != user_id:
-            continue
         if job["status"] == "completed" and job.get("real_doc_id"):
             ids[job["real_doc_id"]] = job.get("name", "")
-    if not user_id:
-        pi = _get_pi_client()
-        for doc_id, doc in pi.documents.items():
-            if doc_id not in ids:
-                ids[doc_id] = doc.get("doc_name", "")
+    pi = _get_pi_client()
+    for doc_id, doc in pi.documents.items():
+        if doc_id not in ids:
+            ids[doc_id] = doc.get("doc_name", "")
     return list(ids.keys())
 
 
@@ -827,7 +809,7 @@ async def chat(req: ChatRequest):
     _SSE_HEADERS = {"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
 
     if req.doc_id == "__all__":
-        doc_ids = _get_all_real_doc_ids(req.user_id)
+        doc_ids = _get_all_real_doc_ids()
         if not doc_ids:
             raise HTTPException(400, "No indexed documents found")
         return StreamingResponse(
@@ -835,11 +817,6 @@ async def chat(req: ChatRequest):
             media_type="text/event-stream",
             headers=_SSE_HEADERS,
         )
-
-    # Verify ownership when user_id is provided
-    if req.user_id and req.doc_id in _jobs:
-        if _jobs[req.doc_id].get("user_id", "") != req.user_id:
-            raise HTTPException(403, "Document not found or access denied")
 
     real_doc_id = _resolve_doc_id(req.doc_id)
     return StreamingResponse(
